@@ -1,81 +1,61 @@
 "use client"
 
 import useEmblaCarousel from "embla-carousel-react"
-import { movies } from "@/app/data/movies"
 import { useEmblaAutoplay } from "@/app/hooks/useEmblaAutoplay"
-import { Play, Info } from "lucide-react" // Hoặc dùng thẻ <i className="..."> nếu bạn dùng FontAwesome
+import { Movie } from "../types/movie"
+import { Image } from "../types/images"
 
-export default function HeroCarousel() {
+export default function HeroCarousel( { movies, logos } : { movies: Movie[], logos: Image[]}) {
   const [ref, api] = useEmblaCarousel({ loop: true, duration: 40 })
-  useEmblaAutoplay(api, 8000)
+  useEmblaAutoplay(api, 6500)
 
   return (
     <section ref={ref} className="embla relative h-screen min-h-[700px] w-full overflow-hidden bg-black">
       <div className="embla__container h-full">
-        {movies.map((movie) => (
+        {movies.map((movie, index) => (
           <div key={movie.id} className="embla__slide relative h-full w-full flex-[0_0_100%]">
-            
-            {/* 1. BACKGROUND IMAGE */}
-            <div className="absolute inset-0">
+            <div className="relative h-full w-full">
               <img 
-                src={movie.backdrop} 
-                alt={movie.title}
-                className="h-full w-full object-cover object-center"
-              />
-              {/* Lớp phủ màu vàng/nâu để tạo chất phim "Vintage/Action" giống ảnh mẫu */}
-              <div className="absolute inset-0 bg-yellow-900/20 mix-blend-overlay" />
-            </div>
-
-            {/* 2. GRADIENT OVERLAYS */}
-            {/* Bóng đổ từ trái sang để làm nổi bật chữ */}
-            <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/50 to-transparent" />
-            {/* Bóng đổ từ dưới lên để nối liền với section bên dưới */}
-            <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-[#050505] to-transparent" />
-
-            {/* 3. CONTENT CONTAINER */}
-            <div className="relative z-10 flex h-full flex-col justify-center px-6 md:px-16 lg:px-20 pt-10 max-w-5xl">
-              
-              {/* Title: Size cực lớn, font dày */}
-              <h1 className="font-sans text-6xl md:text-8xl lg:text-9xl font-black uppercase tracking-tighter text-white leading-[0.9] drop-shadow-2xl">
-                {movie.title}
-              </h1>
-              
-              {/* Metadata row */}
-              <div className="mt-6 flex items-center gap-4 text-sm md:text-base font-semibold text-gray-200">
-                <span className="rounded bg-white/20 px-2 py-0.5 text-xs backdrop-blur-sm">Movie</span>
-                <span className="flex items-center gap-1 text-yellow-400">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
-                    <path fillRule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clipRule="evenodd" />
-                  </svg>
-                  {movie.rating}
-                </span>
-                <span>•</span>
-                <span>{movie.year}</span>
-                <span>•</span>
-                <span className="text-gray-400">Action / Thriller</span>
-              </div>
-
-              {/* Description */}
-              <p className="mt-6 max-w-2xl text-base md:text-lg text-gray-300 line-clamp-3 leading-relaxed font-light">
-                {movie.title || "Returning to the house where his family was brutally murdered during the war, the man who refuses to die dismantles it, loads it on a truck..."}
-              </p>
-
-              {/* Action Buttons */}
-              <div className="mt-8 flex items-center gap-4">
-                {/* Nút Play: Trắng đặc, chữ đen */}
-                <button className="group flex items-center gap-2 rounded-lg bg-white px-8 py-3.5 text-base font-bold text-black transition-all hover:bg-gray-200 active:scale-95">
-                  <Play className="w-5 h-5 fill-black" />
-                  Play
-                </button>
-                
-                {/* Nút Details: Glassmorphism (Kính mờ) */}
-                <button className="group flex items-center gap-2 rounded-lg border border-white/30 bg-white/10 px-8 py-3.5 text-base font-semibold text-white backdrop-blur-md transition-all hover:bg-white/20 hover:border-white/50 active:scale-95">
-                  <Info className="w-5 h-5" />
-                  More Info
-                </button>
+              src={movie.backdrop_path}
+              alt={movie.title} 
+              className="object-cover w-full h-full" 
+              loading="lazy" decoding="async" fetchPriority="high" style={{width:"100%", height:"100%", objectFit:"cover", filter:"brightness(0.8)"}} data-preload="true" data-cached="false" />
+              <div className="absolute inset-0 bg-opacity-50"></div>
+              <div className="absolute bottom-[20%] left-0 right-0 z-10 text-white">
+                <div className="mx-auto max-w-[1440px] px-4 md:px-6 lg:px-8">
+                  <div className="mb-6">
+                    {logos[index] && (
+                      <img 
+                      src={logos[index].file_path}
+                      alt={movie.title} 
+                      className="max-h-[100px] w-auto object-contain" 
+                      loading="lazy"
+                      decoding="async" 
+                      fetchPriority="high" 
+                      style={{maxHeight:"100px", width:"auto", objectFit:"contain"}}
+                      data-preload="true" data-cached="false" />
+                    )}
+                     
+                  </div>
+                  <div className="mx-auto mb-2 flex items-center">
+                    <span className="mr-3 flex items-center capitalize text-gray-300">
+                      {movie.media_type}
+                    </span>
+                    <span className="mr-2 flex items-center gap-x-1 text-gray-300"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-star h-4 w-4 fill-white text-white"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                      {movie.vote_average.toFixed(1)}
+                    </span>
+                    <span className="ml-2 flex items-center gap-x-1 text-gray-300"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-calendar h-4 w-4"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
+                      {movie.release_date.substring(0, 4)}
+                    </span>
+                  </div>
+                  <p className="line-clamp-3 max-w-2xl text-lg">{movie.overview}</p>
+                  <div className="mt-4">
+                    <a href="/watch/movie/1228246"><button className="inline-flex items-center justify-center whitespace-nowrap text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 shadow h-10 rounded-md mr-4 border border-white bg-white px-6 py-2 font-bold text-black transition-transform hover:scale-110 hover:bg-gray-200"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-play fill-black pr-1"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>Play</button></a>
+                    <a href="/movie/1228246"><button className="inline-flex items-center justify-center whitespace-nowrap text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 shadow-sm hover:bg-secondary/80 h-10 rounded-md border border-white bg-transparent px-6 py-2 font-bold text-white transition-transform hover:scale-110"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-info pr-1"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>See More</button></a>
+                  </div>
+                </div>
               </div>
             </div>
-
           </div>
         ))}
       </div>
