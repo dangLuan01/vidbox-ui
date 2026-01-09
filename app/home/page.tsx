@@ -29,7 +29,7 @@ export default async function Home() {
 
   const moviesByTopic = await Promise.all(
     topics.map(async (topic) => {
-      const movies = await topicService.getTopicMovies(topic.url_topic, "en-US")
+      const movies = await topicService.getTopicMovies(topic.url_topic, topic.media_type, "en-US")
       return { ...topic, movies}
     })
   )

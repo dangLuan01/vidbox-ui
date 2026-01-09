@@ -1,4 +1,31 @@
+"use client"
+
+import { useEffect, useState } from "react"
+import { SearchService } from "../services/searchService"
+import { Movie } from "../types/movie"
+import Link from "next/link"
+
 export default function Header() {
+  const [query, setQuery] = useState("") 
+  const [results, setResults] = useState<Movie[]>([]) 
+  const [loading, setLoading] = useState(false)
+  const searchServie = new SearchService()
+ 
+
+  useEffect(() => { 
+    if (!query) { 
+      setResults([]) 
+      return 
+    } 
+    const delayDebounce = setTimeout(async () => { 
+      setLoading(true) 
+      const movie = await searchServie.searchMovie(query, "en-US")
+      setResults(movie || [])
+      setLoading(false)
+      }, 500)
+    return () => clearTimeout(delayDebounce)
+  }, [query])
+  
   return (
     <header className="absolute top-0 z-[100] w-full pt-5">
       <div className="mx-auto flex items-center justify-between max-w-[1440px] px-4 md:px-6 lg:px-8">
@@ -21,7 +48,8 @@ export default function Header() {
                         focus:ring-0 focus-visible:ring-0 shadow-none caret-white pl-[85px] 
                         sm:w-64 md:w-72 lg:w-[450px]"
               placeholder="Search"
-              value=""
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
             />
             {/* Filter Button */}
             <button className="absolute left-2 top-[6px] flex cursor-pointer items-center gap-x-2 
@@ -43,6 +71,28 @@ export default function Header() {
               <circle cx="11" cy="11" r="8"></circle>
               <path d="m21 21-4.3-4.3"></path>
             </svg>
+            {/* Kết quả tìm kiếm */}
+            {query && (
+            <div className="absolute z-50 mt-2 w-full max-h-[70vh] overflow-auto rounded-xl border border-gray-200 bg-white/95 p-0 shadow-2xl backdrop-blur-md dark:border-gray-700 dark:bg-[#1a1b1e]/95 divide-y divide-gray-200 dark:divide-gray-700">
+              {loading && <div className="p-3 text-sm text-gray-500">Loading...</div>}
+              {results.map((movie) => (
+                <Link key={movie.id} href={`/${movie.media_type}/${movie.id}`} className="group flex cursor-pointer items-center gap-3 px-3 py-3 hover:bg-gray-50 dark:hover:bg-[#222225]">
+                 <img alt={movie.title} width="48" height="64" className="h-16 w-12 rounded object-cover" src={movie.poster_path}/>
+                 <div className="flex flex-col">
+                    <span className="text-sm dark:text-white dark:group-hover:text-white">{movie.title}</span>
+                    <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400 dark:group-hover:text-gray-300">
+                      <span className="capitalize">{movie.media_type}</span>
+                      <span>•</span>
+                      <span className="flex items-center">⭐ {movie.vote_average}</span>
+                      <span>•</span>
+                      <span>{movie.release_date}</span>
+                    </div>
+                 </div>
+              </Link>
+              ))}
+              <button className="w-full rounded-b-xl bg-gray-100 py-3 text-center text-sm font-medium text-gray-800 hover:bg-gray-200 dark:bg-[#1e2023] dark:text-gray-200 dark:hover:bg-[#26282c]">See more results</button>
+            </div>
+            )}
           </div>
         </div>
 

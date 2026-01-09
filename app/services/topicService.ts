@@ -30,17 +30,18 @@ export class TopicService {
         }
     }
 
-    async getTopicMovies(url:string, language = "en-US"): Promise<Movie[]> {
+    async getTopicMovies(url:string, media_type:string, language = "en-US"): Promise<Movie[]> {
         const data = await this.request(`${url}`)
         
         const safeData: Movie[] = data?.results.map((t: Movie) => ({
             id: t.id,
             poster_path: this.baseWsrv + this.baseUrlImage + '/t/p/w342' + t.poster_path,
+            backdrop_path: this.baseWsrv + this.baseUrlImage + '/t/p/w500' + t.backdrop_path,
             title: t.title ? t.title : t.name,
             original_language: t.original_language,
             first_air_date: t.first_air_date,
             overview: t.overview,
-            media_type: t.media_type,
+            media_type: t.media_type ? t.media_type : media_type,
             release_date: t.release_date ? t.release_date : t.first_air_date,
             vote_average: t.vote_average,
         }))
