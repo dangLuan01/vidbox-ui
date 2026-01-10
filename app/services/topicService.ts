@@ -35,8 +35,8 @@ export class TopicService {
         
         const safeData: Movie[] = data?.results.map((t: Movie) => ({
             id: t.id,
-            poster_path: this.baseWsrv + this.baseUrlImage + '/t/p/w342' + t.poster_path,
-            backdrop_path: this.baseWsrv + this.baseUrlImage + '/t/p/w500' + t.backdrop_path,
+            poster_path: this.baseUrlImage + '/t/p/w342' + t.poster_path,
+            backdrop_path: this.baseUrlImage + '/t/p/w500' + t.backdrop_path,
             title: t.title ? t.title : t.name,
             original_language: t.original_language,
             first_air_date: t.first_air_date,

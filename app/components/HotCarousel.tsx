@@ -26,7 +26,7 @@ export default function HotCarousel({movies, genres}: {movies: Movie[], genres:G
                 <div className="embla__container">
                     {movies.map((movie)=>
                     <div key={movie.id} className="embla__slide swiper-slide grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 md:max-w-[320px] lg:max-w-[267px] xl:max-w-[300px] md:mr-[10px]">
-                        <a href="/movie/1368166">
+                        <a href={`/movie/${movie.id}`}>
                             <div className="relative h-52 md:max-w-[320px] lg:max-w-[267px] xl:max-w-[300px] overflow-hidden rounded-xl sm:h-40 md:h-32 lg:h-32 xl:h-44">
                                 <img 
                                     src={movie.backdrop_path} 

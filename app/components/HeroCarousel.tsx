@@ -12,7 +12,7 @@ export default function HeroCarousel( { movies, logos } : { movies: Movie[], log
   return (
     <section ref={ref} className="embla relative h-screen min-h-[700px] w-full overflow-hidden bg-black">
       <div className="embla__container h-full">
-        {movies.map((movie, index) => (
+        {movies.map((movie) => (
           <div key={movie.id} className="embla__slide relative h-full w-full flex-[0_0_100%]">
             <div className="relative h-full w-full">
               <img 
