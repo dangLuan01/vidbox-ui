@@ -6,9 +6,7 @@ import HotCarousel from "@/app/components/HotCarousel"
 import ProviderCarousel from "../components/ProviderCarousel"
 import { topics } from "@/app/data/topics"
 import { ProviderService } from "../services/providerService"
-import type { Provider } from "../types/provider"
 import { TrendingService } from "../services/trendingService"
-import { Movie } from "../types/movie"
 import { Image } from "../types/images"
 import { GenreService } from "../services/genreService"
 import clsx from "clsx"
@@ -19,28 +17,29 @@ export default async function Home() {
   
   const serviceProvider = new ProviderService()
   const serviceTrending = new TrendingService()
-  const genreService = new GenreService()
-  const topicService = new TopicService()
+  const genreService    = new GenreService()
+  const topicService    = new TopicService()
 
-  const providers: Provider[] = await serviceProvider.getMovieProviders("en-US")
+  const [providers, trendingDay, trendingWeek, genres, moviesByTopic] = await Promise.all([
+    serviceProvider.getMovieProviders("en-US"),
+    serviceTrending.getMovieDayTrending("en-US"),
+    serviceTrending.getMovieWeekTrending("en-US"),
+    genreService.getAllGenres("en-US"),
+    Promise.all(
+      topics.map(async (topic) => {
+        const movies = await topicService.getTopicMovies(topic.url_topic, topic.media_type, "en-US")
+        return { ...topic, movies}
+      })
+    )
+  ])
   
-  const trendingDay: Movie[] = await serviceTrending.getMovieDayTrending("en-US")
   const logos: Image[] = await serviceTrending.getLogosTrendingMovies(trendingDay)
-  
   const logoMap = new Map<number, Image>() 
   logos.forEach((logo) => { 
     logoMap.set(logo.id, logo) 
   })
 
-  const trendingWeek: Movie[] = await serviceTrending.getMovieWeekTrending("en-US")
-  const genres = await genreService.getAllGenres("en-US")
-
-  const moviesByTopic = await Promise.all(
-    topics.map(async (topic) => {
-      const movies = await topicService.getTopicMovies(topic.url_topic, topic.media_type, "en-US")
-      return { ...topic, movies}
-    })
-  )
+  //const moviesByTopic = await 
   
   return (
     <>
