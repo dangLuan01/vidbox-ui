@@ -5,11 +5,13 @@ export class TrendingService {
     private baseUrl: string
     private baseUrlImage: string
     private baseWsrv: string
+    private language: string
 
     constructor(){
         this.baseUrl        = "https://api.themoviedb.org/3"
         this.baseUrlImage   = "https://image.tmdb.org"
         this.baseWsrv       = "https://wsrv.nl/?url="
+        this.language       = "en-US"
     }
 
     private async request(endpoint: string) {
@@ -31,7 +33,7 @@ export class TrendingService {
         }
     }
 
-    async getMovieDayTrending(language = "en-US"): Promise<Movie[]> { 
+    async getMovieDayTrending(language = this.language): Promise<Movie[]> { 
         const data = await this.request(`/trending/all/day?language=${language}`)
 
         const safeData: Movie[] = data?.results.map((t: Movie) => ({
@@ -47,13 +49,14 @@ export class TrendingService {
         return safeData as Movie[] || []
     }
 
-    async getLogosTrendingMovies(movies: Movie[], language = "en-US"): Promise<Image[]> {
+    async getLogosTrendingMovies(movies: Movie[], language = this.language): Promise<Image[]> {
         const results = await Promise.all(
             movies.map(async (m) => {
-            const data = await this.request(`/${m.media_type === "movie" ? "movie" : "tv"}/${m.id}/images?language=${language}`)
+            const data = await this.request(`/${m.media_type === "movie" ? "movie" : "tv"}/${m.id}/images?include_image_language=${language}`)
             const firstLogo = data?.logos?.[0]
             return firstLogo
                 ? {
+                    id: data?.id,
                     file_path: this.baseUrlImage + "/t/p/w300" + firstLogo.file_path,
                     iso_639_1: firstLogo.iso_639_1,
                 }
@@ -63,7 +66,7 @@ export class TrendingService {
         return results.filter((logo): logo is Image => logo !== null)
     }
 
-    async getMovieWeekTrending(language = "en-US"): Promise<Movie[]> {
+    async getMovieWeekTrending(language = this.language): Promise<Movie[]> {
         const data = await this.request(`/trending/all/week?language=${language}`)
         
         const safeData: Movie[] = data?.results.map((t: Movie) => ({

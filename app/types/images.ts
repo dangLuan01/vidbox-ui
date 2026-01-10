@@ -5,6 +5,7 @@ export interface Images {
 }
 
 export interface Image {
+    id: number
     iso_639_1: string,
     file_path: string,
 }

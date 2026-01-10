@@ -2,9 +2,11 @@ import { Genre } from "@/app/types/genre"
 
 export class GenreService{
     private baseUrl: string
+    private language: string
 
     constructor(){
-        this.baseUrl = "https://api.themoviedb.org/3"
+        this.baseUrl    = "https://api.themoviedb.org/3"
+        this.language   = "en-US"
     }
 
      private async request(endpoint: string) {
@@ -26,7 +28,7 @@ export class GenreService{
         } 
     }
 
-    async getGenres(type:"movie" | "tv" = "movie", language = "en-US"): Promise<Genre[]> {
+    async getGenres(type:"movie" | "tv" = "movie", language = this.language): Promise<Genre[]> {
         const data = await this.request(`/genre/${type}/list?language=${language}`)
         
         const safeData: Genre[] = data?.genres.map((g: Genre) => ({
@@ -37,7 +39,7 @@ export class GenreService{
         return safeData as Genre[] || []
     }
 
-    async getAllGenres(language = "en-US"): Promise<Genre[]> { 
+    async getAllGenres(language = this.language): Promise<Genre[]> { 
         const [movieGenres, tvGenres] = await Promise.all([ 
             this.getGenres("movie", language), 
             this.getGenres("tv", language),

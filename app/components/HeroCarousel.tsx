@@ -5,7 +5,7 @@ import { useEmblaAutoplay } from "@/app/hooks/useEmblaAutoplay"
 import { Movie } from "../types/movie"
 import { Image } from "../types/images"
 
-export default function HeroCarousel( { movies, logos } : { movies: Movie[], logos: Image[]}) {
+export default function HeroCarousel( { movies, logos } : { movies: Movie[], logos: Map<number, Image>}) {
   const [ref, api] = useEmblaCarousel({ loop: true, duration: 40 })
   useEmblaAutoplay(api, 6500)
 
@@ -24,9 +24,9 @@ export default function HeroCarousel( { movies, logos } : { movies: Movie[], log
               <div className="absolute bottom-[20%] left-0 right-0 z-10 text-white">
                 <div className="mx-auto max-w-[1440px] px-4 md:px-6 lg:px-8">
                   <div className="mb-6">
-                    {logos[index] && (
+                    {logos.has(movie.id) && (
                       <img 
-                      src={logos[index].file_path}
+                      src={logos.get(movie.id)?.file_path}
                       alt={movie.title} 
                       className="max-h-[100px] w-auto object-contain" 
                       loading="lazy"

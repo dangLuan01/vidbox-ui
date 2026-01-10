@@ -3,10 +3,11 @@ import { Movie } from "../types/movie"
 export class SearchService {
     private baseUrl: string
     private baseUrlImage: string
-
+    private language: string
     constructor(){
-        this.baseUrl = "https://api.themoviedb.org/3"
-        this.baseUrlImage = "https://image.tmdb.org"
+        this.baseUrl        = "https://api.themoviedb.org/3"
+        this.baseUrlImage   = "https://image.tmdb.org"
+        this.language       = "en-US"
     }
 
     private async request(endpoint: string) {
@@ -28,7 +29,7 @@ export class SearchService {
         } 
     }
 
-    async searchMovie(query: string, language = "en-US", page = "1"): Promise<Movie[]> { 
+    async searchMovie(query: string, language = this.language, page = "1"): Promise<Movie[]> { 
         const data = await this.request(`/search/multi?query=${query}&include_adult=true&language=${language}&page=${page}`)
 
         const safeData: Movie[] = data?.results.filter((m:any) => m.media_type !== "person").map((m: Movie) => ({

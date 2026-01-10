@@ -3,10 +3,11 @@ import { Provider } from "../types/provider"
 export class ProviderService {
     private baseUrl: string
     private baseUrlImage: string
-
+    private language: string
     constructor(){
-        this.baseUrl = "https://api.themoviedb.org/3"
-        this.baseUrlImage = "https://image.tmdb.org"
+        this.baseUrl        = "https://api.themoviedb.org/3"
+        this.baseUrlImage   = "https://image.tmdb.org"
+        this.language       = "en-US"
     }
 
     private async request(endpoint: string) {
@@ -28,7 +29,7 @@ export class ProviderService {
         } 
     }
 
-    async getMovieProviders(language = "en-US"): Promise<Provider[]> { 
+    async getMovieProviders(language = this.language): Promise<Provider[]> { 
         const data = await this.request(`/watch/providers/movie?language=${language}&page=1`)
 
         const safeData: Provider[] = data?.results.map((p: Provider) => ({
