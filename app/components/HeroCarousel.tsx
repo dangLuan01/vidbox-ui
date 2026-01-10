@@ -22,10 +22,11 @@ export default function HeroCarousel( { movies, logos } : { movies: Movie[], log
                 src={movie.backdrop_path}
                 alt={movie.title}
                 fill
-                priority   // chỉ slide đầu
+                priority
                 sizes="100vw"
                 className="object-cover"
                 style={{ filter: "brightness(0.8)" }}
+                loading="lazy"
               />
               <div className="absolute inset-0 bg-opacity-50"></div>
               <div className="absolute bottom-[20%] left-0 right-0 z-10 text-white">
@@ -36,6 +37,7 @@ export default function HeroCarousel( { movies, logos } : { movies: Movie[], log
                       src={`https://image.tmdb.org/t/p/w300${logos.get(movie.id)?.file_path}`}
                       alt={movie.title}
                       className="max-h-[100px] w-auto object-contain"
+                      loading="lazy"
                       decoding="async"
                     />
                     )}
