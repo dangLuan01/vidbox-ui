@@ -9,7 +9,7 @@ export default function HotCarousel({movies, genres}: {movies: Movie[], genres:G
     const options = {
         align: 'start' as const, 
         slidesToScroll: 1,
-        duation: 40,
+        duation: 120,
         loop: true,
     }
     const [emblaRef, emblaApi] = useEmblaCarousel(options)

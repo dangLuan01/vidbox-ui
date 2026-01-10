@@ -4,10 +4,13 @@ import useEmblaCarousel from "embla-carousel-react"
 import { useEmblaAutoplay } from "@/app/hooks/useEmblaAutoplay"
 import { Movie } from "../types/movie"
 import { Image } from "../types/images"
+import ImageNext from "next/image"
 
 export default function HeroCarousel( { movies, logos } : { movies: Movie[], logos: Map<number, Image>}) {
-  const [ref, api] = useEmblaCarousel({ loop: true, duration: 40 })
-  useEmblaAutoplay(api, 6500)
+  const [ref, api] = useEmblaCarousel({ 
+    loop: true, duration: 100, dragFree: false, containScroll: "trimSnaps" 
+  })
+  useEmblaAutoplay(api, 6000)
 
   return (
     <section ref={ref} className="embla relative h-screen min-h-[700px] w-full overflow-hidden bg-black">
@@ -15,27 +18,27 @@ export default function HeroCarousel( { movies, logos } : { movies: Movie[], log
         {movies.map((movie) => (
           <div key={movie.id} className="embla__slide relative h-full w-full flex-[0_0_100%]">
             <div className="relative h-full w-full">
-              <img 
-              src={movie.backdrop_path}
-              alt={movie.title} 
-              className="object-cover w-full h-full" 
-              loading="lazy" decoding="async" fetchPriority="high" style={{width:"100%", height:"100%", objectFit:"cover", filter:"brightness(0.8)"}} data-preload="true" data-cached="false" />
+              <ImageNext
+                src={movie.backdrop_path}
+                alt={movie.title}
+                fill
+                priority   // chỉ slide đầu
+                sizes="100vw"
+                className="object-cover"
+                style={{ filter: "brightness(0.8)" }}
+              />
               <div className="absolute inset-0 bg-opacity-50"></div>
               <div className="absolute bottom-[20%] left-0 right-0 z-10 text-white">
                 <div className="mx-auto max-w-[1440px] px-4 md:px-6 lg:px-8">
                   <div className="mb-6">
                     {logos.has(movie.id) && (
-                      <img 
-                      src={logos.get(movie.id)?.file_path}
-                      alt={movie.title} 
-                      className="max-h-[100px] w-auto object-contain" 
-                      loading="lazy"
-                      decoding="async" 
-                      fetchPriority="high" 
-                      style={{maxHeight:"100px", width:"auto", objectFit:"contain"}}
-                      data-preload="true" data-cached="false" />
+                    <img
+                      src={`https://image.tmdb.org/t/p/w300${logos.get(movie.id)?.file_path}`}
+                      alt={movie.title}
+                      className="max-h-[100px] w-auto object-contain"
+                      decoding="async"
+                    />
                     )}
-                     
                   </div>
                   <div className="mx-auto mb-2 flex items-center">
                     <span className="mr-3 flex items-center capitalize text-gray-300">
