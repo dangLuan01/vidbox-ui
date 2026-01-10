@@ -26,14 +26,11 @@ export default async function Home() {
   
   const trendingDay: Movie[] = await serviceTrending.getMovieDayTrending("en-US")
   const logos: Image[] = await serviceTrending.getLogosTrendingMovies(trendingDay)
-  console.log(logos);
   
   const logoMap = new Map<number, Image>() 
   logos.forEach((logo) => { 
     logoMap.set(logo.id, logo) 
   })
-  console.log(logoMap);
-  
 
   const trendingWeek: Movie[] = await serviceTrending.getMovieWeekTrending("en-US")
   const genres = await genreService.getAllGenres("en-US")
