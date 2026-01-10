@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import Header from "@/app/components/Header"
 import Footer from "@/app/components/Footer"
 import HeroCarousel from "@/app/components/HeroCarousel"
@@ -22,8 +23,18 @@ export default async function Home() {
   const topicService = new TopicService()
 
   const providers: Provider[] = await serviceProvider.getMovieProviders("en-US")
+  
   const trendingDay: Movie[] = await serviceTrending.getMovieDayTrending("en-US")
   const logos: Image[] = await serviceTrending.getLogosTrendingMovies(trendingDay)
+  console.log(logos);
+  
+  const logoMap = new Map<number, Image>() 
+  logos.forEach((logo) => { 
+    logoMap.set(logo.id, logo) 
+  })
+  console.log(logoMap);
+  
+
   const trendingWeek: Movie[] = await serviceTrending.getMovieWeekTrending("en-US")
   const genres = await genreService.getAllGenres("en-US")
 
@@ -40,7 +51,7 @@ export default async function Home() {
       <div style={{position:"fixed", zIndex:"9999", top:"16px", left:"16px", right:"16px", bottom:"16px", pointerEvents:"none"}}></div>
       <main className="bg-white pb-32 text-gray-900 dark:bg-black dark:text-white">
         <div className="relative h-screen w-full">
-          <HeroCarousel movies={trendingDay} logos={logos}/>
+          <HeroCarousel movies={trendingDay} logos={logoMap}/>
           <HotCarousel movies={trendingWeek} genres={genres}/>
         </div>
         <div className="mx-auto max-w-[1440px] px-4 md:px-6 lg:px-8 pt-28">
