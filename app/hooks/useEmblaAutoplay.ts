@@ -3,7 +3,7 @@ import type { EmblaCarouselType } from "embla-carousel"
 
 export function useEmblaAutoplay(
   emblaApi: EmblaCarouselType | undefined,
-  delay = 4000
+  delay = 6000
 ) {
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null)
 

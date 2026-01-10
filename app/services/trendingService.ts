@@ -71,7 +71,7 @@ export class TrendingService {
         
         const safeData: Movie[] = data?.results.map((t: Movie) => ({
             id: t.id,
-            backdrop_path: this.baseUrlImage + '/t/p/w300' + t.backdrop_path,
+            backdrop_path: this.baseUrlImage + '/t/p/w400' + t.backdrop_path,
             title: t.title ? t.title: t.name,
             genre_ids: t.genre_ids
         }))
