@@ -10,9 +10,31 @@ export default function Header() {
   const [results, setResults] = useState<Movie[]>([]) 
   const [loading, setLoading] = useState(false)
   const searchServie = new SearchService()
- 
+
+  const [theme, setTheme] = useState<"light" | "dark">(() =>{
+    if (typeof window !== "undefined") { 
+      return (
+        localStorage.getItem("theme") as "light" | "dark") || 
+        "light" 
+      } 
+
+    return "light"
+  })
+
+  const toggleTheme = () => { 
+    setTheme(theme === "light" ? "dark" : "light")
+  }
 
   useEffect(() => { 
+
+    if (theme === "dark") { 
+      document.documentElement.classList.add("dark") 
+    } else { 
+      document.documentElement.classList.remove("dark") 
+    } 
+
+    localStorage.setItem("theme", theme) 
+
     if (!query) { 
       setResults([]) 
       return 
@@ -24,7 +46,7 @@ export default function Header() {
       setLoading(false)
       }, 500)
     return () => clearTimeout(delayDebounce)
-  }, [query])
+  }, [query, theme])
   
   return (
     <header className="absolute top-0 z-[100] w-full pt-5">
@@ -83,9 +105,9 @@ export default function Header() {
                     <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400 dark:group-hover:text-gray-300">
                       <span className="capitalize">{movie.media_type}</span>
                       <span>•</span>
-                      <span className="flex items-center">⭐ {movie.vote_average}</span>
+                      <span className="flex items-center">⭐ {movie.vote_average.toFixed(1) ?? "0.0"}</span>
                       <span>•</span>
-                      <span>{movie.release_date}</span>
+                      <span>{movie.release_date ?? ""}</span>
                     </div>
                  </div>
               </Link>
@@ -128,11 +150,12 @@ export default function Header() {
           </button>
 
           {/* Theme Toggle */}
-          <button className="inline-flex items-center justify-center whitespace-nowrap rounded-md 
+          <button onClick={toggleTheme} className="inline-flex items-center justify-center whitespace-nowrap rounded-md 
                             text-sm font-medium transition-colors focus-visible:outline-none 
                             focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none 
                             disabled:opacity-50 hover:bg-transparent h-9 w-9 bg-transparent">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+            {theme ==="light" ? (
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                 viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
                 strokeLinecap="round" strokeLinejoin="round"
                 className="lucide lucide-sun text-white">
@@ -146,6 +169,10 @@ export default function Header() {
               <path d="m6.34 17.66-1.41 1.41"></path>
               <path d="m19.07 4.93-1.41 1.41"></path>
             </svg>
+            ):(
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-moon text-black dark:text-white"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>  
+            )}
+
           </button>
 
           {/* Menu */}

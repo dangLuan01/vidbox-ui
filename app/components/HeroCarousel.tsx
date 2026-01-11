@@ -8,9 +8,9 @@ import ImageNext from "next/image"
 
 export default function HeroCarousel( { movies, logos } : { movies: Movie[], logos: Map<number, Image>}) {
   const [ref, api] = useEmblaCarousel({ 
-    loop: true, duration: 100, dragFree: false, containScroll: "trimSnaps" 
+    loop: true, duration: 60, dragFree: false, containScroll: "trimSnaps" 
   })
-  useEmblaAutoplay(api, 6000)
+  useEmblaAutoplay(api, 5000)
 
   return (
     <section ref={ref} className="embla relative h-screen min-h-[700px] w-full overflow-hidden bg-black">
@@ -22,7 +22,6 @@ export default function HeroCarousel( { movies, logos } : { movies: Movie[], log
                 src={movie.backdrop_path}
                 alt={movie.title}
                 fill
-                priority
                 sizes="100vw"
                 className="object-cover"
                 style={{ filter: "brightness(0.8)" }}

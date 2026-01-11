@@ -29,6 +29,21 @@ export interface MovieDetail {
   recommentdations?: Movie[]
 }
 
+export interface TvDetail {
+  id: number,
+  backdrop_path: string,
+  title: string,
+  overview: string,
+  poster_path: string,
+  release_date: string,
+  vote_average: number,
+  trailer?: string,
+  genres?: Genre[],
+  cast?: Cast[],
+  recommentdations?: Movie[],
+  seasons?: Season[],
+}
+
 interface Genre {
   id: number,
   name: string
@@ -39,4 +54,18 @@ export interface Cast {
   name: string,
   profile_path: string,
   character: string
+}
+
+export type Season = {
+  season_number: number,
+  name: string
+}
+
+export interface Episode {
+  season_number: number,
+  episode_number: number,
+  name: string,
+  still_path: string,
+  overview: string,
+  air_date: string
 }
