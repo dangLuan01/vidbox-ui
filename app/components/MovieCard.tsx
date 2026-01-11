@@ -110,7 +110,7 @@ export default function MovieCard({ movie }: { movie: Movie }) {
             <div className="flex items-center gap-2">
                 <a
                   className="flex flex-1 items-center justify-center gap-2 rounded-[6px] bg-white px-4 py-2 text-sm font-semibold text-black transition-colors hover:bg-gray-200"
-                  href={`/watch/${movie.media_type}/${movie.id}`}>
+                  href={movie.media_type === "movie" ? `/watch/${movie.media_type}/${movie.id}` : `/watch/${movie.media_type}/${movie.id}?season=1&episode=1`}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                       viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} stroke-linecap="round"
                       stroke-linejoin="round" className="lucide lucide-play">
