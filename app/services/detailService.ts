@@ -100,7 +100,7 @@ export class DetailService {
         return safeData as TvDetail
     }
 
-    async getSeason(id: number, season_number: number, language = this.language): Promise<Episode[]> {
+    async getSeason(id: string, season_number: string, language = this.language): Promise<Episode[]> {
         const data = await this.request(`/tv/${id}/season/${season_number}?language=${language}`)
         const safeData: Episode[] = data?.episodes.map((e: Episode) => ({
             season_number: e.season_number,

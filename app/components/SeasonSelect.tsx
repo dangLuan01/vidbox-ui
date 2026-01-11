@@ -6,7 +6,6 @@ import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover
 import { Command, CommandGroup, CommandItem } from "@/components/ui/command"
 import { Button } from "@/components/ui/button"
 import { Episode, Season } from "../types/movie"
-import { DetailService } from "../services/detailService"
 
 interface SeasonSelectProps {
     id: number
@@ -15,26 +14,25 @@ interface SeasonSelectProps {
 }
 export function SeasonSelect({ id, seasons, onEpisodesChange }: SeasonSelectProps) {
     const [open, setOpen] = React.useState(false)
-    const [selected, setSelected] = React.useState<Season | null>(null)
-    const [episodes, setEpisodes] = React.useState<Episode[]>([])
-    const seasonService = new DetailService()
+    const [selected, setSelected] = React.useState<Season | null>(null)   
 
     React.useEffect(() => { 
-
-        const defaultSeason = seasons?.find((s) => s.season_number === 1) 
-        if (defaultSeason) { 
-            setSelected(defaultSeason) 
-            seasonService.getSeason(id, defaultSeason.season_number).then(onEpisodesChange) 
-        } 
+      const defaultSeason = seasons?.find((s) => s.season_number === 1) 
+      if (defaultSeason) { 
+        setSelected(defaultSeason) 
+        fetch(`/api/season/${id}/${defaultSeason.season_number}?language=en-US`) 
+        .then(res => res.json()) 
+        .then(onEpisodesChange)
+      } 
     }, [id, seasons])
 
-
     const handleSelect = (season: Season) => { 
-        setSelected(season) 
-        setOpen(false) 
-        seasonService.getSeason(id, season.season_number).then(onEpisodesChange) 
-    }
-  
+      setSelected(season) 
+      setOpen(false) 
+      fetch(`/api/season/${id}/${season.season_number}?language=en-US`) 
+      .then(res => res.json()) 
+      .then(onEpisodesChange)
+    }  
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
