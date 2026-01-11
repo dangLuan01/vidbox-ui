@@ -38,8 +38,6 @@ export default async function Home() {
   logos.forEach((logo) => { 
     logoMap.set(logo.id, logo) 
   })
-
-  //const moviesByTopic = await 
   
   return (
     <>

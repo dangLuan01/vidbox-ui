@@ -51,7 +51,6 @@ export default function Header() {
   return (
     <header className="absolute top-0 z-[100] w-full pt-5">
       <div className="mx-auto flex items-center justify-between max-w-[1440px] px-4 md:px-6 lg:px-8">
-        
         {/* Logo */}
         <a className="text-2xl font-bold text-red-500" href="/home">
           <img alt="logo" width="150" height="36" src="/logo.png" />
@@ -120,35 +119,6 @@ export default function Header() {
 
         {/* Action Buttons */}
         <div className="flex items-center gap-x-2">
-          
-          {/* Smartphone Link */}
-          <a href="/android-movies-apk">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                strokeLinecap="round" strokeLinejoin="round"
-                className="lucide lucide-smartphone text-white">
-              <rect width="14" height="20" x="5" y="2" rx="2" ry="2"></rect>
-              <path d="M12 18h.01"></path>
-            </svg>
-          </a>
-
-          {/* Download App */}
-          <button className="inline-flex items-center justify-center whitespace-nowrap rounded-md 
-                            text-sm font-medium focus-visible:outline-none focus-visible:ring-1 
-                            focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 
-                            hover:bg-transparent h-9 w-9 bg-transparent hover:text-white 
-                            transition-all duration-200 text-white"
-                  title="Download APP">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                strokeLinecap="round" strokeLinejoin="round"
-                className="lucide lucide-download">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-              <polyline points="7 10 12 15 17 10"></polyline>
-              <line x1="12" x2="12" y1="15" y2="3"></line>
-            </svg>
-          </button>
-
           {/* Theme Toggle */}
           <button onClick={toggleTheme} className="inline-flex items-center justify-center whitespace-nowrap rounded-md 
                             text-sm font-medium transition-colors focus-visible:outline-none 
@@ -187,22 +157,6 @@ export default function Header() {
               <line x1="4" x2="20" y1="18" y2="18"></line>
             </svg>
           </button>
-
-          {/* User Icon */}
-          <div>
-            <button className="inline-flex items-center justify-center whitespace-nowrap rounded-md 
-                              text-sm font-medium transition-colors focus-visible:outline-none 
-                              focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none 
-                              disabled:opacity-50 hover:bg-transparent h-9 w-9 text-white bg-transparent">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                  viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                  strokeLinecap="round" strokeLinejoin="round"
-                  className="lucide lucide-user text-white">
-                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
-              </svg>
-            </button>
-          </div>
         </div>
       </div>
     </header>

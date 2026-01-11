@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { SeasonSelect } from "@/app/components/SeasonSelect";
-import { Episode, Season, TvDetail } from "../types/movie";
+import { Episode, TvDetail } from "../types/movie";
 
 export function EpisodesBlock({ tv }: { tv: TvDetail }) {
     const [episodes, setEpisodes] = React.useState<Episode[]>([])
@@ -52,10 +52,13 @@ export function EpisodesBlock({ tv }: { tv: TvDetail }) {
                     {visibleEpisodes.map((episode)=> (
                     <div className="">
                         <div className="mb-2 flex h-20 w-full cursor-pointer gap-2 overflow-hidden rounded-md transition-colors bg-gray-100 hover:bg-gray-200 dark:bg-[#2a2a30] dark:hover:bg-gray-700">
-                            <a className="flex flex-1 gap-2 overflow-hidden" href={`/watch/tv/${tv.id}?season=${episode.season_number}&amp;episode=${episode.episode_number}`}>
+                            <a className="flex flex-1 gap-2 overflow-hidden" href={`/watch/tv/${tv.id}?season=${episode.season_number}&episode=${episode.episode_number}`}>
                             <div className="relative h-full min-w-36">
                                 <img className="rounded-l-md object-cover" alt={episode.name} style={{width: "100%", height: "100%", position: "absolute", top: "0px", left: "0px", objectFit: "cover"}} 
-                                src={episode.still_path}/>
+                                src={episode.still_path}
+                                loading="lazy"
+                                decoding="async"
+                                />
                                 <div className="absolute inset-0">
                                     <div className="absolute left-0 top-0 rounded-br-md rounded-tl-md bg-black bg-opacity-70 px-2 py-1 text-sm text-white">{episode.episode_number}</div>
                                 </div>
