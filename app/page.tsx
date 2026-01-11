@@ -11,29 +11,53 @@ export default function Home() {
     const [results, setResults] = useState<Movie[]>([]) 
     const [loading, setLoading] = useState(false)
     const searchServie = new SearchService()
+
+    const [theme, setTheme] = useState<"light" | "dark">(() =>{
+        if (typeof window !== "undefined") { 
+        return (
+            localStorage.getItem("theme") as "light" | "dark") || 
+            "light" 
+        } 
+
+        return "light"
+    })
+
+    const toggleTheme = () => { 
+        setTheme(theme === "light" ? "dark" : "light")
+    }
     
-    useEffect(() => { 
-      if (!query) { 
-        setResults([]) 
-        return 
-      } 
-      const delayDebounce = setTimeout(async () => { 
-        setLoading(true) 
-        const movie = await searchServie.searchMovie(query, "en-US")
-        setResults(movie || [])
-        setLoading(false)
+    useEffect(() => {
+
+        if (theme === "dark") { 
+            document.documentElement.classList.add("dark") 
+        } else { 
+            document.documentElement.classList.remove("dark") 
+        } 
+
+        localStorage.setItem("theme", theme) 
+        if (!query) { 
+            setResults([]) 
+            return 
+        } 
+        const delayDebounce = setTimeout(async () => { 
+            setLoading(true) 
+            const movie = await searchServie.searchMovie(query, "en-US")
+            setResults(movie || [])
+            setLoading(false)
         }, 500)
 
         return () => clearTimeout(delayDebounce) 
-    }, [query])
+    }, [query, theme])
 
   return (
     <div className="__classNameName_f367f3">
       <header className="absolute top-0 z-[100] w-full pt-5">
         <div className="mx-auto flex items-center justify-between max-w-[1440px] px-4 md:px-6 lg:px-8">
-          <div className="w-[150px]"><button className=""></button></div>
-          <div className="flex items-center gap-x-2">
-          <button className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:bg-transparent h-9 w-9 bg-transparent"><svg
+            <div className="w-[150px]"><button className=""></button></div>
+            <div className="flex items-center gap-x-2">
+                <button onClick={toggleTheme} className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:bg-transparent h-9 w-9 bg-transparent">
+                {theme === "light" ?(
+                    <svg
                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"
                     className="lucide lucide-sun text-black hover:text-black dark:text-white dark:hover:text-white">
@@ -46,7 +70,13 @@ export default function Home() {
                     <path d="M20 12h2"></path>
                     <path d="m6.34 17.66-1.41 1.41"></path>
                     <path d="m19.07 4.93-1.41 1.41"></path>
-                </svg></button><button type="button" id="radix-_r_0_" aria-haspopup="menu" aria-expanded="false"
+                </svg>
+                ):(
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-moon text-black dark:text-white"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
+                )}
+                
+                </button>
+            <button type="button" id="radix-_r_0_" aria-haspopup="menu" aria-expanded="false"
                 data-state="closed"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                     fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"
                     className="lucide lucide-menu text-black dark:text-white">
