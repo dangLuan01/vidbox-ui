@@ -3,7 +3,7 @@
 import { Movie } from "@/app/types/movie"
 import { useRef, useState } from "react";
 
-export default function MovieCard({ movie }: { movie: Movie }) {
+export default function MovieCard({ movie, media_type }: { movie: Movie, media_type: string }) {
   const [hovered, setHovered] = useState(false) 
   const [side, setSide] = useState<"left" | "right">("right") 
   const cardRef = useRef<HTMLDivElement>(null) 
@@ -27,7 +27,7 @@ export default function MovieCard({ movie }: { movie: Movie }) {
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
     >
-    <a href={`/${movie.media_type}/${movie.id}`}>
+    <a href={`/${movie.media_type ? movie.media_type : media_type}/${movie.id}`}>
         <div className="relative mr-2 h-52 w-32 overflow-hidden rounded-sm transition-transform duration-300 will-change-transform sm:h-52 sm:w-32 md:h-48 md:w-32 lg:h-[185px] lg:w-[122px] xl:h-[285px] xl:w-[189px] 2xl:h-[285px] 2xl:w-[189px]">
           <img src={movie.poster_path} alt={movie.title} className="h-full w-full bg-gray-500/10 object-cover opacity-100" 
           loading="lazy" decoding="async" fetchPriority="high"

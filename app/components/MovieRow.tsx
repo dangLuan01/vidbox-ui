@@ -5,7 +5,7 @@ import { useEmblaControls } from "@/app/hooks/useEmblaControls"
 import MovieCard from "./MovieCard"
 import { Movie } from "../types/movie"
 
-export default function MovieRow({movies}: {movies: Movie[]}) {
+export default function MovieRow({movies, media_type}: {movies: Movie[], media_type: string}) {
  const [emblaRef, emblaApi] = useEmblaCarousel({
           align: "start",
           loop: false,
@@ -29,7 +29,7 @@ export default function MovieRow({movies}: {movies: Movie[]}) {
                   {movies.map((movie) => 
                   <div key={movie.id} className="embla__slide !w-auto duration-100 ease-linear">
                       <div className="group relative">
-                        <MovieCard movie={movie}/>
+                        <MovieCard movie={movie} media_type={media_type}/>
                       </div>
                   </div>
                   )}

@@ -1,8 +1,10 @@
 "use client"
 
+import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 
 export default function HeaderWatch() {
+  const router = useRouter();
   const [theme, setTheme] = useState<"light" | "dark">(() =>{
     if (typeof window !== "undefined") { 
       return (
@@ -34,7 +36,7 @@ export default function HeaderWatch() {
       <div className="mx-auto flex items-center justify-between max-w-[1440px] px-4 md:px-6 lg:px-8">
         {/*Button Back*/}
         <div className="w-[150px]">
-            <button className="">
+            <button className="" onClick={() => router.back()}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-arrow-left text-2xl font-bold text-black dark:text-white hover:scale-110 hover:transform">
                     <path d="m12 19-7-7 7-7"></path>
                     <path d="M19 12H5"></path>
