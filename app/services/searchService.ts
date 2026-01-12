@@ -15,7 +15,8 @@ export class SearchService {
             const res = await fetch(`${this.baseUrl}${endpoint}`, { 
                 headers: { 
                     Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMmViYzQ1NzAyODhlY2QyZDNkZDA3NWQ0YzdkNTRhMSIsIm5iZiI6MTcxMzA2NDc5OC4wNzEsInN1YiI6IjY2MWI0YjVlNGU0ZGZmMDE5ZDAzN2RkMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.VZt3ZPvg0EhpgrosOCyhyg3-1n_3heWIFy-ElUznCYw`,
-                }, 
+                },
+                next: { revalidate: 600 }
             }) 
 
             if (!res.ok) { 

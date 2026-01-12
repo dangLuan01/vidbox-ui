@@ -3,6 +3,7 @@
 import * as React from "react"
 import { Episode, TvDetail } from "../types/movie";
 import { SeasonSelectWatch } from "./SeasonSelectWatch";
+import Link from "next/link";
 
 export function EpisodesBlockWatch({ tv, seasonSeleted, episodeSeleted }: { tv: TvDetail, seasonSeleted:number, episodeSeleted: number }) {
     const [episodes, setEpisodes]       = React.useState<Episode[]>([])
@@ -53,7 +54,7 @@ export function EpisodesBlockWatch({ tv, seasonSeleted, episodeSeleted }: { tv: 
                     {visibleEpisodes.map((episode)=> (
                     <div className="">
                         <div className={`mb-2 flex h-20 w-full cursor-pointer gap-2 overflow-hidden rounded-md transition-colors ${episode.episode_number === episodeSeleted && episode.season_number === seasonSeleted ? 'bg-gray-400 dark:bg-gray-900' : 'bg-gray-100 hover:bg-gray-200 dark:bg-[#2a2a30] dark:hover:bg-gray-700'}`}>
-                            <a className="flex flex-1 gap-2 overflow-hidden" href={`/watch/tv/${tv.id}?season=${episode.season_number}&episode=${episode.episode_number}`}>
+                            <Link className="flex flex-1 gap-2 overflow-hidden" href={`/watch/tv/${tv.id}?season=${episode.season_number}&episode=${episode.episode_number}`}>
                             <div className="relative h-full min-w-36">
                                 <img className={`rounded-l-md object-cover ${episode.episode_number === episodeSeleted && episode.season_number === seasonSeleted ? 'blur-[1.3px]' : null}`} alt={episode.name} style={{width: "100%", height: "100%", position: "absolute", top: "0px", left: "0px", objectFit: "cover"}} 
                                 src={episode.still_path}
@@ -76,7 +77,7 @@ export function EpisodesBlockWatch({ tv, seasonSeleted, episodeSeleted }: { tv: 
                                 <h2 className="text-sm font-semibold">{episode.name}</h2>
                                 <p className="line-clamp-2 text-xs text-gray-600 dark:text-gray-400">{episode.overview}</p>
                             </div>
-                            </a>
+                            </Link>
                             <a className="flex items-center justify-center pr-2" href={`https://dl.vidsrc.vip/tv/${tv.id}/${episode.season_number}/${episode.episode_number}`}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-download z-50">
                                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>

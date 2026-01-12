@@ -18,7 +18,8 @@ export class DetailService {
             const res = await fetch(`${this.baseUrl}${endpoint}`, { 
                 headers: { 
                     Authorization: `Bearer ${process.env.TMDB_TOKEN}`,
-                }, 
+                },
+                next: { revalidate: 600 }
             }) 
 
             if (!res.ok) { 

@@ -52,9 +52,9 @@ export default function Header() {
     <header className="absolute top-0 z-[100] w-full pt-5">
       <div className="mx-auto flex items-center justify-between max-w-[1440px] px-4 md:px-6 lg:px-8">
         {/* Logo */}
-        <a className="text-2xl font-bold text-red-500" href="/home">
+        <Link className="text-2xl font-bold text-red-500" href="/home">
           <img alt="logo" width="150" height="36" src="/logo.png" />
-        </a>
+        </Link>
 
         {/* Search Box */}
         <div className="hidden md:block">

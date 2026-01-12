@@ -1,6 +1,7 @@
 "use-client"
 
 import { Movie } from "@/app/types/movie"
+import Link from "next/link";
 import { useRef, useState } from "react";
 
 export default function MovieCard({ movie, media_type }: { movie: Movie, media_type: string }) {
@@ -27,12 +28,18 @@ export default function MovieCard({ movie, media_type }: { movie: Movie, media_t
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
     >
-    <a href={`/${movie.media_type ? movie.media_type : media_type}/${movie.id}`}>
+    <Link href={`/${movie.media_type ? movie.media_type : media_type}/${movie.id}`}>
         <div className="relative mr-2 h-52 w-32 overflow-hidden rounded-sm transition-transform duration-300 will-change-transform sm:h-52 sm:w-32 md:h-48 md:w-32 lg:h-[185px] lg:w-[122px] xl:h-[285px] xl:w-[189px] 2xl:h-[285px] 2xl:w-[189px]">
-          <img src={movie.poster_path} alt={movie.title} className="h-full w-full bg-gray-500/10 object-cover opacity-100" 
-          loading="lazy" decoding="async" fetchPriority="high"
-                style={{aspectRatio:"2/3", objectFit:"cover", opacity:"1", visibility:"visible", display:"block", transition:"opacity 0.1s ease", transform:"translateZ(0)", backfaceVisibility:"hidden", willChange:"opacity"}} data-preload="true"
-                data-cached="false" />
+          <img
+            src={movie.poster_path}
+            alt={movie.title}
+            loading="lazy"
+            decoding="async"
+            fetchPriority="high"
+            className="h-full w-full bg-gray-500/10 object-cover transition-opacity duration-100"
+            style={{aspectRatio:"2/3", objectFit:"cover",filter:"brightness(1)"}}
+          />
+
           <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center rounded-sm bg-gray-900/60 opacity-0 backdrop-blur-[2px] transition-opacity duration-300 group-hover:opacity-100"><img src="/icon-play.png" alt="play" width="25" height="25" loading="lazy" className="transform transition-transform duration-300" />
             <div className="absolute bottom-2 px-1 text-center text-sm font-semibold leading-snug sm:text-base">
               <h3 className="mb-2 line-clamp-2 text-xs font-semibold text-white">
@@ -51,7 +58,7 @@ export default function MovieCard({ movie, media_type }: { movie: Movie, media_t
             {movie.vote_average.toFixed(1)}
           </div>
         </div>
-    </a>
+    </Link>
     {hovered && (
         <div className={`absolute top-0 ${side === "right" ? "left-full ml-0" : "right-full mr-2"} z-50 w-[360px] rounded-xl bg-black shadow-2xl ring-1 ring-white/10`} >
           <div className="relative h-40 w-full overflow-hidden rounded-t-xl">
@@ -108,7 +115,7 @@ export default function MovieCard({ movie, media_type }: { movie: Movie, media_t
               <p className="line-clamp-2 text-sm text-gray-300">{movie.overview}</p>
             </div>
             <div className="flex items-center gap-2">
-                <a
+                <Link
                   className="flex flex-1 items-center justify-center gap-2 rounded-[6px] bg-white px-4 py-2 text-sm font-semibold text-black transition-colors hover:bg-gray-200"
                   href={movie.media_type === "movie" ? `/watch/${movie.media_type}/${movie.id}` : `/watch/${movie.media_type}/${movie.id}?season=1&episode=1`}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -117,7 +124,7 @@ export default function MovieCard({ movie, media_type }: { movie: Movie, media_t
                       <polygon points="6 3 20 12 6 21 6 3"></polygon>
                   </svg>
                   Watch Now
-                </a>
+                </Link>
                 <div className="relative">
                   <button aria-label="Add to watchlist"
                   className="flex h-9 w-9 items-center justify-center rounded-[6px] border backdrop-blur-md shadow-sm transition-colors bg-white/15 text-white border-white/25 hover:bg-white/25"
