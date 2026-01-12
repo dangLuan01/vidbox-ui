@@ -4,6 +4,8 @@ import useEmblaCarousel from "embla-carousel-react"
 import { useEmblaHotAutoplay } from "@/app/hooks/useEmblaHotAutoplay"
 import { Movie } from "@/app/types/movie"
 import { Genre } from "@/app/types/genre"
+import Link from "next/link"
+import Image from "next/image"
 
 export default function HotCarousel({movies, genres}: {movies: Movie[], genres:Genre[]}) {
     const options = {
@@ -26,15 +28,18 @@ export default function HotCarousel({movies, genres}: {movies: Movie[], genres:G
                 <div className="embla__container">
                     {movies.map((movie)=>
                     <div key={movie.id} className="embla__slide swiper-slide grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 md:max-w-[320px] lg:max-w-[267px] xl:max-w-[300px] md:mr-[10px]">
-                        <a href={`/${movie.media_type}/${movie.id}`}>
+                        <Link href={`/${movie.media_type}/${movie.id}`}>
                             <div className="relative h-52 md:max-w-[320px] lg:max-w-[267px] xl:max-w-[300px] overflow-hidden rounded-xl sm:h-40 md:h-32 lg:h-32 xl:h-44">
-                                <img 
-                                    src={movie.backdrop_path} 
-                                    alt={movie.title} 
-                                    className="object-cover w-full h-full transition-all duration-300 hover:scale-105" 
-                                    loading="lazy" decoding="async" fetchPriority="auto"
-                                    style={{filter:"brightness(0.8)", aspectRatio:"16/9", objectFit:"cover"}} 
-                                    data-preload="true" data-cached="false" />
+                                <Image
+                                    src={movie.backdrop_path}
+                                    alt={movie.title}
+                                    width={1920}
+                                    height={1080}
+                                    className="object-cover w-full h-full transition-all duration-300 hover:scale-105"
+                                    style={{ filter: "brightness(0.8)" }}
+                                    priority={false}
+                                    loading="lazy"
+                                />
                                 <div className="absolute inset-0 h-full w-full items-center justify-center rounded-2xl px-5 text-white transition duration-300 ease-in-out hover:text-red-500 hover:backdrop-blur-[2px]">
                                     <div className="absolute inset-0 left-2 right-2 top-1/2 flex flex-col truncate font-semibold md:text-xl"><span className="truncate">{movie.title}</span>
                                         <div className="flex gap-x-2 text-[10px] text-gray-400">
@@ -45,7 +50,7 @@ export default function HotCarousel({movies, genres}: {movies: Movie[], genres:G
                                     </div>
                                 </div>
                             </div>
-                        </a>
+                        </Link>
                     </div>
                     )}
                 </div>

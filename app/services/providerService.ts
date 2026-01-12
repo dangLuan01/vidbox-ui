@@ -16,6 +16,7 @@ export class ProviderService {
                 headers: { 
                     Authorization: `Bearer ${process.env.TMDB_TOKEN}`,
                 }, 
+                next: { revalidate: 600 }
             }) 
 
             if (!res.ok) { 

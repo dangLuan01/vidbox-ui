@@ -1,8 +1,11 @@
-export const dynamic = 'force-dynamic';
+export const revalidate = 900;
+export const runtime = "edge";
+
 import Footer from "@/app/components/Footer";
 import Header from "@/app/components/Header";
 import { DetailService } from "@/app/services/detailService";
 import { EpisodesBlock } from "@/app/components/EpisodesBlock";
+import Link from "next/link";
 
 export default async function TvPage({ params }: { params: Promise<{ id: string }> }) {
    const {id} = await params
@@ -52,11 +55,11 @@ export default async function TvPage({ params }: { params: Promise<{ id: string 
                         <p className="mb-6 text-lg">{tv.overview}</p>
                         <div className="hidden md:block">
                            <div className="flex items-center space-x-4">
-                              <a href={`/watch/tv/${tv.id}?season=1&episode=1`}>
+                              <Link href={`/watch/tv/${tv.id}?season=1&episode=1`}>
                                  <button className="inline-flex items-center justify-center whitespace-nowrap text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 shadow h-10 rounded-md mr-4 border border-white bg-white px-6 py-2 font-bold text-black transition-transform hover:scale-110 hover:bg-gray-200"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-play fill-black pr-1"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>
                                     Play
                                  </button>
-                              </a>
+                              </Link>
                               <button className="inline-flex items-center justify-center whitespace-nowrap text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 text-secondary-foreground shadow-sm hover:bg-secondary/80 h-10 rounded-md px-8 border border-black bg-transparent font-bold dark:border-white dark:text-white lg:transition-transform lg:hover:scale-110">
                                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-plus mr-2 h-4 w-4">
                                     <path d="M5 12h14"></path>
@@ -67,11 +70,11 @@ export default async function TvPage({ params }: { params: Promise<{ id: string 
                            </div>
                         </div>
                         <div className="flex flex-col gap-y-2 md:hidden">
-                           <a className="w-full block" href={`/watch/tv/${tv.id}?season=1&amp;episode=1`}>
+                           <Link className="w-full block" href={`/watch/tv/${tv.id}?season=1&amp;episode=1`}>
                               <button className="inline-flex items-center justify-center whitespace-nowrap text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-white text-black shadow hover:bg-gray-100 h-10 rounded-md px-8 w-full border border-gray-300 font-bold lg:transition-transform lg:hover:scale-110"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-play fill-black pr-1"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>
                                 Play
                             </button>
-                           </a>
+                           </Link>
                            <button className="inline-flex items-center justify-center whitespace-nowrap text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 text-secondary-foreground shadow-sm hover:bg-secondary/80 h-10 rounded-md px-8 w-full border border-black bg-transparent font-bold dark:border-white dark:text-white lg:transition-transform lg:hover:scale-110">
                               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-plus mr-2 h-4 w-4">
                                  <path d="M5 12h14"></path>
@@ -123,7 +126,7 @@ export default async function TvPage({ params }: { params: Promise<{ id: string 
                      <div className="grid grid-cols-3 justify-items-center gap-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6">
                         {tv.recommentdations?.map((tv) => (
                         <div key={tv.id} className="relative overflow-hidden rounded-md hover:text-white">
-                           <a href={`/tv/${tv.id}`}>
+                           <Link href={`/tv/${tv.id}`}>
                               <div className="relative rounded-sm">
                                  <img className="object-cover" alt={tv.title} style={{width: "100%", height: "100%"}} 
                                  src={tv.poster_path}
@@ -151,7 +154,7 @@ export default async function TvPage({ params }: { params: Promise<{ id: string 
                                     {tv.vote_average.toFixed(1) ?? "0.0"}
                                  </div>
                               </div>
-                           </a>
+                           </Link>
                         </div>
                         ))}
                      </div>

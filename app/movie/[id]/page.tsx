@@ -1,7 +1,10 @@
-export const dynamic = 'force-dynamic';
+export const revalidate = 900;
+export const runtime = "edge";
+
 import Footer from "@/app/components/Footer";
 import Header from "@/app/components/Header";
 import { DetailService } from "@/app/services/detailService";
+import Link from "next/link";
 
 export default async function MoviePage({ params }: { params: Promise<{ id: string }> }) {
     const {id}          = await params
@@ -45,14 +48,14 @@ export default async function MoviePage({ params }: { params: Promise<{ id: stri
                         </div>
                         <p className="mb-6 text-lg">{movie.overview}</p>
                         <div className="flex items-center space-x-4" >
-                            <a href={`/watch/movie/${movie.id}`}>
+                            <Link href={`/watch/movie/${movie.id}`}>
                                 <button className="inline-flex items-center justify-center whitespace-nowrap text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 shadow h-10 rounded-md mr-4 border border-white bg-white px-6 py-2 font-bold text-black transition-transform hover:scale-110 hover:bg-gray-200">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-play fill-black pr-1">
                                         <polygon points="6 3 20 12 6 21 6 3"></polygon>
                                     </svg>
                                     Play
                                 </button>
-                            </a>
+                            </Link>
                             <button className="inline-flex items-center justify-center whitespace-nowrap text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 text-secondary-foreground shadow-sm hover:bg-secondary/80 h-10 rounded-md px-8 border border-black bg-transparent font-bold transition-transform hover:scale-110 dark:border-white dark:text-white">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-plus mr-2 h-4 w-4">
                                     <path d="M5 12h14"></path>
@@ -74,7 +77,7 @@ export default async function MoviePage({ params }: { params: Promise<{ id: stri
                         <h2 className="mb-6 text-2xl font-bold">Cast</h2>
                         <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4" >
                             {movie.cast?.map((cast) => (
-                                <a key={cast.id} className="flex items-center space-x-4 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors cursor-pointer group" href={`/search?cast=${cast.name}`}>
+                            <a key={cast.id} className="flex items-center space-x-4 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors cursor-pointer group" href={`/search?cast=${cast.name}`}>
                                 <img className="h-16 w-16 rounded-full object-cover group-hover:scale-105 transition-transform" src={cast.profile_path} width="64" height="64" alt={cast.name}/>
                                 <div >
                                     <h3 className="font-semibold group-hover:text-blue-500 transition-colors">{cast.name}</h3>
@@ -97,7 +100,7 @@ export default async function MoviePage({ params }: { params: Promise<{ id: stri
                         <div className="grid grid-cols-2 justify-items-center gap-4 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6">
                             {movie.recommentdations?.map((movie) => (
                             <div key={movie.id} className="relative overflow-hidden rounded-md hover:text-white">
-                                <a href={`/${movie.media_type}/${movie.id}`}>
+                                <Link href={`/${movie.media_type}/${movie.id}`}>
                                     <div className="relative rounded-sm">
                                         <img className="object-cover" alt="The Iron Lady" style={{width: "100%", height: "100%"}} src={movie.poster_path}/>
                                         <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center rounded-sm bg-gray-900 bg-opacity-60 opacity-0 transition-opacity hover:opacity-90 hover:backdrop-blur-[1px]">
@@ -121,7 +124,7 @@ export default async function MoviePage({ params }: { params: Promise<{ id: stri
                                             {movie.vote_average.toFixed(1)}
                                         </div>
                                     </div>
-                                </a>
+                                </Link>
                             </div>
                             ))}
                         </div>

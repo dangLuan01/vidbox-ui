@@ -1,7 +1,12 @@
-export const dynamic = 'force-dynamic';
+export const revalidate = 900;
+export const runtime = "edge";
+
+import clsx from "clsx"
+import dynamic from "next/dynamic";
+
 import Header from "@/app/components/Header"
 import Footer from "@/app/components/Footer"
-import HeroCarousel from "@/app/components/HeroCarousel"
+const HeroCarousel= dynamic(()=>import ("@/app/components/HeroCarousel"));
 import HotCarousel from "@/app/components/HotCarousel"
 import ProviderCarousel from "../components/ProviderCarousel"
 import { topics } from "@/app/data/topics"
@@ -9,9 +14,9 @@ import { ProviderService } from "../services/providerService"
 import { TrendingService } from "../services/trendingService"
 import { Image } from "../types/images"
 import { GenreService } from "../services/genreService"
-import clsx from "clsx"
 import MovieRow from "../components/MovieRow"
 import { TopicService } from "../services/topicService"
+
 
 export default async function Home() {
   
@@ -25,19 +30,26 @@ export default async function Home() {
     serviceTrending.getMovieDayTrending("en-US"),
     serviceTrending.getMovieWeekTrending("en-US"),
     genreService.getAllGenres("en-US"),
+    // Promise.all(
+    //   topics.map(async(topic) => {
+    //     const movies = await topicService.getTopicMovies(topic.url_topic, topic.media_type, "en-US")
+    //     return { ...topic, movies}
+    //   })
+    // )
     Promise.all(
-      topics.map(async (topic) => {
-        const movies = await topicService.getTopicMovies(topic.url_topic, topic.media_type, "en-US")
-        return { ...topic, movies}
-      })
+      topics.map((topic) =>
+        topicService.getTopicMovies(topic.url_topic, topic.media_type, "en-US")
+          .then((movies) => ({ ...topic, movies }))
+      )
     )
   ])
   
   const logos: Image[] = await serviceTrending.getLogosTrendingMovies(trendingDay)
-  const logoMap = new Map<number, Image>() 
-  logos.forEach((logo) => { 
-    logoMap.set(logo.id, logo) 
-  })
+  // const logoMap = new Map<number, Image>() 
+  // logos.forEach((logo) => { 
+  //   logoMap.set(logo.id, logo) 
+  // })
+  const logoMap = new Map(logos.map(l => [l.id, l]));
   
   return (
     <>
