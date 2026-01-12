@@ -68,7 +68,7 @@ export default async function Home() {
                           View All
                       </a>
                   </div>
-                  <MovieRow movies={t.movies} />
+                  <MovieRow movies={t.movies} media_type={t.media_type}/>
               </div>
             )}
           </div>

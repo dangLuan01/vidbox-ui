@@ -6,10 +6,10 @@ import { Movie } from "../types/movie"
 import Link from "next/link"
 
 export default function Header() {
-  const [query, setQuery] = useState("") 
+  const [query, setQuery]     = useState("") 
   const [results, setResults] = useState<Movie[]>([]) 
   const [loading, setLoading] = useState(false)
-  const searchServie = new SearchService()
+  const searchServie          = new SearchService()
 
   const [theme, setTheme] = useState<"light" | "dark">(() =>{
     if (typeof window !== "undefined") { 

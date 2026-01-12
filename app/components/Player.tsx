@@ -7,14 +7,16 @@ interface PlayerProps {
     id: string
     media_type: string
     servers: Server[]
-    safeSeason?: string
-    safeEpisode?: string
+    safeSeason?: number
+    safeEpisode?: number
 }
 export default function Player({ id, media_type, servers, safeSeason, safeEpisode }: PlayerProps) {
     const [open, setOpen] = useState(false) 
+    const [auto, setAuto] = useState(false) 
     const [selectedServer, setSelectedServer] = useState(servers[0])
 
     return (
+    <>
         <div className="relative mx-auto h-[400px] w-full overflow-hidden rounded-lg shadow-lg md:aspect-video md:h-full lg:w-3/4">
             <button onClick={() => setOpen(!open)} className="absolute left-0 right-0 top-0 z-20 mx-auto flex h-10 w-40 items-center justify-center gap-x-2 rounded-b-[12px] bg-gradient-to-r from-blue-600 to-purple-600 text-white transition-all hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl backdrop-blur-sm border border-white/20">
                 {open ? (
@@ -69,12 +71,76 @@ export default function Player({ id, media_type, servers, safeSeason, safeEpisod
             <div className="absolute left-0 top-0 h-full w-full">
                 <iframe src="about:blank" className="absolute left-0 top-0 h-full w-full transition-opacity duration-200 opacity-0 pointer-events-none " data-provider-name={setSelectedServer.name}></iframe>
                 {media_type === 'tv' ? (
-                    <iframe src={`${selectedServer.embed}/tv/${id}/${safeSeason}/${safeEpisode}`} className="absolute left-0 top-0 h-full w-full transition-opacity duration-200 opacity-100 z-10 " allow="autoplay; encrypted-media; picture-in-picture" allowFullScreen data-provider-name={selectedServer.name}></iframe>
+                    <iframe src={`${selectedServer.embed}/tv/${id}/${safeSeason}/${safeEpisode}${auto ? "?nextEpisode=true&autoplayNextEpisode=true&episodeSelector=true" : ""}`} className="absolute left-0 top-0 h-full w-full transition-opacity duration-200 opacity-100 z-10 " allow="autoplay; encrypted-media; picture-in-picture" allowFullScreen data-provider-name={selectedServer.name}></iframe>
                 ):(
                     <iframe src={`${selectedServer.embed}/movie/${id}`} className="absolute left-0 top-0 h-full w-full transition-opacity duration-200 opacity-100 z-10 " allow="autoplay; encrypted-media; picture-in-picture" allowFullScreen data-provider-name={selectedServer.name}></iframe>
                 )}
                 
             </div>
         </div>
+        {media_type === "movie" ?(
+            <div className="relative z-10 mx-auto -mt-[5px] flex w-full items-center justify-center gap-x-4 rounded-b-lg bg-gray-900 py-1 text-sm text-white lg:w-3/4">
+            <button className="flex cursor-pointer items-center gap-x-1 rounded-md transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-bookmark h-4 w-4">
+                    <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
+                </svg>
+                <span className="hidden lg:block">Add to Watchlist</span>
+            </button>
+            <label className="flex cursor-pointer items-center gap-x-1 rounded-md transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-forward h-4 w-4">
+                    <polyline points="15 17 20 12 15 7"></polyline>
+                    <path d="M4 18v-2a4 4 0 0 1 4-4h12"></path>
+                </svg>
+                <span className="hidden lg:block">Share</span>
+            </label>
+            <a href={`https://dl.vidsrc.vip/${media_type}/${id}`}>
+                <label className="flex cursor-pointer items-center gap-x-1 rounded-md transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-download h-4 w-4">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" x2="12" y1="15" y2="3"></line>
+                    </svg>
+                    <span className="hidden lg:block">Download</span>
+                </label>
+            </a>
+        </div>
+        ):(       
+        <div className="relative z-10 mx-auto -mt-[5px] flex w-full items-center justify-center gap-x-4 rounded-b-lg bg-gray-900 py-1 text-sm text-white lg:w-3/4">
+            <div className="flex items-center gap-x-2">
+                <button onClick={() => setAuto(!auto)} type="button" role="switch" aria-checked="true" data-state={auto ? ("checked"):("unchecked")}
+                    value="on"
+                    className="peer inline-flex shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-red-600 data-[state=unchecked]:bg-gray-200 dark:focus-visible:ring-gray-800 dark:focus-visible:ring-offset-gray-900 dark:data-[state=unchecked]:bg-gray-800 h-4 w-7">
+                <span
+                    data-state={auto ? ("checked"):("unchecked")}
+                    className="pointer-events-none block h-4 w-4 rounded-full bg-white shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-4 data-[state=unchecked]:translate-x-0"></span></button><span
+                    className="lg:block">Auto Next
+                </span>
+            </div>
+            <button className="flex cursor-pointer items-center gap-x-1 rounded-md transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-bookmark h-4 w-4">
+                    <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
+                </svg>
+                <span className="hidden lg:block">Add to Watchlist</span>
+            </button>
+            <label className="flex cursor-pointer items-center gap-x-1 rounded-md transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-forward h-4 w-4">
+                    <polyline points="15 17 20 12 15 7"></polyline>
+                    <path d="M4 18v-2a4 4 0 0 1 4-4h12"></path>
+                </svg>
+                <span className="hidden lg:block">Share</span>
+            </label>
+            <a href={`https://dl.vidsrc.vip/${media_type}/${id}/${safeSeason}/${safeEpisode}`}>
+                <label className="flex cursor-pointer items-center gap-x-1 rounded-md transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-download h-4 w-4">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" x2="12" y1="15" y2="3"></line>
+                    </svg>
+                    <span className="hidden lg:block">Download</span>
+                </label>
+            </a>
+        </div>
+        )}
+    </>
     )
 }

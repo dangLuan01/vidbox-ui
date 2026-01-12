@@ -73,6 +73,7 @@ export class TrendingService {
             id: t.id,
             backdrop_path: this.baseUrlImage + '/t/p/w400' + t.backdrop_path,
             title: t.title ? t.title: t.name,
+            media_type: t.media_type,
             genre_ids: t.genre_ids
         }))
 

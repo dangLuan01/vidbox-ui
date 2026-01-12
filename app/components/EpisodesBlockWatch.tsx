@@ -1,10 +1,10 @@
 "use client"
 
 import * as React from "react"
-import { SeasonSelect } from "@/app/components/SeasonSelect";
 import { Episode, TvDetail } from "../types/movie";
+import { SeasonSelectWatch } from "./SeasonSelectWatch";
 
-export function EpisodesBlock({ tv }: { tv: TvDetail }) {
+export function EpisodesBlockWatch({ tv, seasonSeleted, episodeSeleted }: { tv: TvDetail, seasonSeleted:number, episodeSeleted: number }) {
     const [episodes, setEpisodes]       = React.useState<Episode[]>([])
     const [sortAsc, setSortAsc]         = React.useState(true)
     const [searchTerm, setSearchTerm]   = React.useState("")
@@ -28,7 +28,7 @@ export function EpisodesBlock({ tv }: { tv: TvDetail }) {
        <div className="w-full">
           <h1 className="pb-5 text-2xl font-semibold">Episodes</h1>
           <div className="flex justify-between">
-             <SeasonSelect id={tv.id} seasons={tv.seasons ?? []} onEpisodesChange={setEpisodes}/>
+             <SeasonSelectWatch id={tv.id} season={seasonSeleted} seasons={tv.seasons ?? []} onEpisodesChange={setEpisodes}/>
              <div className="flex items-center gap-2">
                 <input placeholder="Search" className="mb-1 w-32 rounded-md border bg-background px-2 py-[5px] lg:w-44" type="text" 
                 value={searchTerm} 
@@ -52,15 +52,23 @@ export function EpisodesBlock({ tv }: { tv: TvDetail }) {
                 <div style={{minWidth: "100%", display: "table"}}>
                     {visibleEpisodes.map((episode)=> (
                     <div className="">
-                        <div className="mb-2 flex h-20 w-full cursor-pointer gap-2 overflow-hidden rounded-md transition-colors bg-gray-100 hover:bg-gray-200 dark:bg-[#2a2a30] dark:hover:bg-gray-700">
+                        <div className={`mb-2 flex h-20 w-full cursor-pointer gap-2 overflow-hidden rounded-md transition-colors ${episode.episode_number === episodeSeleted && episode.season_number === seasonSeleted ? 'bg-gray-400 dark:bg-gray-900' : 'bg-gray-100 hover:bg-gray-200 dark:bg-[#2a2a30] dark:hover:bg-gray-700'}`}>
                             <a className="flex flex-1 gap-2 overflow-hidden" href={`/watch/tv/${tv.id}?season=${episode.season_number}&episode=${episode.episode_number}`}>
                             <div className="relative h-full min-w-36">
-                                <img className="rounded-l-md object-cover" alt={episode.name} style={{width: "100%", height: "100%", position: "absolute", top: "0px", left: "0px", objectFit: "cover"}} 
+                                <img className={`rounded-l-md object-cover ${episode.episode_number === episodeSeleted && episode.season_number === seasonSeleted ? 'blur-[1.3px]' : null}`} alt={episode.name} style={{width: "100%", height: "100%", position: "absolute", top: "0px", left: "0px", objectFit: "cover"}} 
                                 src={episode.still_path}
                                 loading="lazy"
                                 decoding="async"
                                 />
                                 <div className="absolute inset-0">
+                                    {episode.episode_number === episodeSeleted && episode.season_number === seasonSeleted ? (
+                                        <div>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" className="absolute left-1/2 top-1/2 mx-auto shrink-0 -translate-x-1/2 -translate-y-1/2 fill-slate-50" viewBox="0 0 24 24">
+                                                <rect width="24" height="24" fill="none"></rect>
+                                                <path d="M21.409 9.353a2.998 2.998 0 0 1 0 5.294L8.597 21.614C6.534 22.737 4 21.277 4 18.968V5.033c0-2.31 2.534-3.769 4.597-2.648z"></path>
+                                            </svg>
+                                        </div>
+                                    ): null}
                                     <div className="absolute left-0 top-0 rounded-br-md rounded-tl-md bg-black bg-opacity-70 px-2 py-1 text-sm text-white">{episode.episode_number}</div>
                                 </div>
                             </div>

@@ -4,7 +4,7 @@ export const topics: Topic[] = [
     {
         id: 1,
         title:"Now Playing",
-        media_type:"",
+        media_type:"movie",
         url_topic:"/discover/movie?page=1&sort_by=popularity.desc&release_date.gte=2025-12-09&with_release_type=3|2&include_adult=false",
         color: "dark:from-red-400 dark:to-orange-500",
         priority: 1
