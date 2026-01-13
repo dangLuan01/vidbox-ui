@@ -3,6 +3,7 @@ export const runtime = "edge";
 
 import Footer from "@/app/components/Footer";
 import Header from "@/app/components/Header";
+import HeaderWatch from "@/app/components/HeaderWatch";
 import { DetailService } from "@/app/services/detailService";
 import Link from "next/link";
 
@@ -13,7 +14,7 @@ export default async function MoviePage({ params }: { params: Promise<{ id: stri
 
     return (
     <>
-     <Header />
+     <HeaderWatch />
         <div style={{position:"fixed", zIndex:"9999", top:"16px", left:"16px", right:"16px", bottom:"16px", pointerEvents:"none"}}></div>
         <main className="bg-white pb-32 text-gray-900 dark:bg-black dark:text-white">
          <div className="relative min-h-screen pb-16 text-gray-900 dark:text-gray-100 bg-white dark:bg-black" >
@@ -158,11 +159,11 @@ export default async function MoviePage({ params }: { params: Promise<{ id: stri
                     </div>
                     <p className="mb-6 text-sm">{movie.overview}</p>
                     <div className="flex flex-col gap-y-2" >
-                        <a className="w-full block" href={`/watch/movie/${movie.id}`}>
+                        <Link className="w-full block" href={`/watch/movie/${movie.id}`}>
                             <button className="inline-flex items-center justify-center whitespace-nowrap text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-white text-black shadow hover:bg-gray-100 h-10 rounded-md px-8 w-full border border-gray-300 font-bold lg:transition-transform lg:hover:scale-110"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-play fill-black pr-1"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>
                                 Play
                             </button>
-                        </a>
+                        </Link>
                         <button className="inline-flex items-center justify-center whitespace-nowrap text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 text-secondary-foreground shadow-sm hover:bg-secondary/80 h-10 rounded-md px-8 w-full border border-black bg-transparent font-bold dark:border-white dark:text-white lg:transition-transform lg:hover:scale-110">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-plus mr-2 h-4 w-4">
                             <path d="M5 12h14"></path>
@@ -212,7 +213,7 @@ export default async function MoviePage({ params }: { params: Promise<{ id: stri
                         <div className="grid grid-cols-3 justify-items-center gap-3">
                             {movie.recommentdations?.map((movie) =>(
                             <div className="relative overflow-hidden rounded-md hover:text-white">
-                                <a href={`/${movie.media_type}/${movie.id}`}>
+                                <Link href={`/${movie.media_type}/${movie.id}`}>
                                     <div className="relative rounded-sm">
                                         <img className="object-cover" alt={movie.title} style={{width: "100%", height: "100%"}} 
                                         src={movie.poster_path}
@@ -240,7 +241,7 @@ export default async function MoviePage({ params }: { params: Promise<{ id: stri
                                             {movie.vote_average.toFixed(1)}
                                         </div>
                                     </div>
-                                </a>
+                                </Link>
                             </div>
                             ))}
                         </div>

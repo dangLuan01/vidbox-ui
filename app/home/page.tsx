@@ -16,6 +16,7 @@ import { Image } from "../types/images"
 import { GenreService } from "../services/genreService"
 import MovieRow from "../components/MovieRow"
 import { TopicService } from "../services/topicService"
+import Link from "next/link";
 
 
 export default async function Home() {
@@ -30,12 +31,6 @@ export default async function Home() {
     serviceTrending.getMovieDayTrending("en-US"),
     serviceTrending.getMovieWeekTrending("en-US"),
     genreService.getAllGenres("en-US"),
-    // Promise.all(
-    //   topics.map(async(topic) => {
-    //     const movies = await topicService.getTopicMovies(topic.url_topic, topic.media_type, "en-US")
-    //     return { ...topic, movies}
-    //   })
-    // )
     Promise.all(
       topics.map((topic) =>
         topicService.getTopicMovies(topic.url_topic, topic.media_type, "en-US")
@@ -45,10 +40,6 @@ export default async function Home() {
   ])
   
   const logos: Image[] = await serviceTrending.getLogosTrendingMovies(trendingDay)
-  // const logoMap = new Map<number, Image>() 
-  // logos.forEach((logo) => { 
-  //   logoMap.set(logo.id, logo) 
-  // })
   const logoMap = new Map(logos.map(l => [l.id, l]));
   
   return (
@@ -75,10 +66,10 @@ export default async function Home() {
                           {t.title}
                       </h1>
                       <span className="text-gray-400">|</span>
-                      <a href="/search?type=movie&amp;now_playing=true" className="text-xs font-medium text-[rgb(2_120_253/var(--tw-text-opacity,1))] dark:text-[rgb(2_120_253/var(--tw-text-opacity,1))] hover:opacity-90"
+                      <Link href="/search?type=movie&amp;now_playing=true" className="text-xs font-medium text-[rgb(2_120_253/var(--tw-text-opacity,1))] dark:text-[rgb(2_120_253/var(--tw-text-opacity,1))] hover:opacity-90"
                           style={{transition:"opacity 0.2s ease", cursor:"pointer"}}>
                           View All
-                      </a>
+                      </Link>
                   </div>
                   <MovieRow movies={t.movies} media_type={t.media_type}/>
               </div>

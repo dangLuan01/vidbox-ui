@@ -2,9 +2,17 @@
 
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, } from "@/components/ui/dropdown-menu"
+import { Clapperboard, Film, Home, Menu, MoonStar, Search, Sun } from "lucide-react"
+import Link from "next/link"
 
 export default function HeaderWatch() {
   const router = useRouter();
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
   const [theme, setTheme] = useState<"light" | "dark">(() =>{
     if (typeof window !== "undefined") { 
       return (
@@ -51,39 +59,50 @@ export default function HeaderWatch() {
                             text-sm font-medium transition-colors focus-visible:outline-none 
                             focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none 
                             disabled:opacity-50 hover:bg-transparent h-9 w-9 bg-transparent">
-            {theme ==="light" ? (
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                strokeLinecap="round" strokeLinejoin="round"
-                className="lucide lucide-sun text-white">
-              <circle cx="12" cy="12" r="4"></circle>
-              <path d="M12 2v2"></path>
-              <path d="M12 20v2"></path>
-              <path d="m4.93 4.93 1.41 1.41"></path>
-              <path d="m17.66 17.66 1.41 1.41"></path>
-              <path d="M2 12h2"></path>
-              <path d="M20 12h2"></path>
-              <path d="m6.34 17.66-1.41 1.41"></path>
-              <path d="m19.07 4.93-1.41 1.41"></path>
-            </svg>
-            ):(
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-moon text-black dark:text-white"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>  
-            )}
-
+            {!mounted ? ( 
+              <div className="h-6 w-6" /> 
+            ) : theme === "dark" ? ( <MoonStar /> ) : ( <Sun /> )}
           </button>
 
-          {/* Menu */}
-          <button type="button" id="radix-_r_0_" aria-haspopup="menu" aria-expanded="false"
-                  data-state="closed">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                strokeLinecap="round" strokeLinejoin="round"
-                className="lucide lucide-menu text-white">
-              <line x1="4" x2="20" y1="12" y2="12"></line>
-              <line x1="4" x2="20" y1="6" y2="6"></line>
-              <line x1="4" x2="20" y1="18" y2="18"></line>
-            </svg>
-          </button>
+           {/* Menu */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                type="button"
+                className="inline-flex items-center justify-center h-9 w-9 rounded-md hover:bg-white/10">
+                <Menu />
+              </button>
+            </DropdownMenuTrigger>
+
+            <DropdownMenuContent align="end" className="w-40">
+              <DropdownMenuItem asChild>
+                <Link href="/home" className="flex items-center gap-2">
+                  <Home />
+                  Home
+                </Link>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem asChild>
+                <Link href="/search" className="flex items-center gap-2">
+                  <Search />
+                  Search
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/search?type=movie" className="flex items-center gap-2">
+                <Clapperboard />
+                  Movies
+                </Link>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem asChild>
+                <Link href="/search?type=tv" className="flex items-center gap-2">
+                <Film />
+                  TV Shows
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </header>

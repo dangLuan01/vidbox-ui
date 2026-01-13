@@ -47,7 +47,7 @@ export function SeasonSelect({ id, seasons, onEpisodesChange }: SeasonSelectProp
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className="w-[200px] p-0 max-h-120 overflow-y-auto">
         <Command>
           <CommandGroup>
             {seasons?.map((season) => (
