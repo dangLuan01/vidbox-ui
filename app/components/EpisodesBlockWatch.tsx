@@ -52,7 +52,7 @@ export function EpisodesBlockWatch({ tv, seasonSeleted, episodeSeleted }: { tv: 
             <div data-radix-scroll-area-viewport="" className="h-full w-full rounded-[inherit]" style={{overflow: "hidden scroll"}}>
                 <div style={{minWidth: "100%", display: "table"}}>
                     {visibleEpisodes.map((episode)=> (
-                    <div className="">
+                    <div key={episode.episode_number} className="">
                         <div className={`mb-2 flex h-20 w-full cursor-pointer gap-2 overflow-hidden rounded-md transition-colors ${episode.episode_number === episodeSeleted && episode.season_number === seasonSeleted ? 'bg-gray-400 dark:bg-gray-900' : 'bg-gray-100 hover:bg-gray-200 dark:bg-[#2a2a30] dark:hover:bg-gray-700'}`}>
                             <Link className="flex flex-1 gap-2 overflow-hidden" href={`/watch/tv/${tv.id}?season=${episode.season_number}&episode=${episode.episode_number}`}>
                             <div className="relative h-full min-w-36">

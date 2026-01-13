@@ -69,3 +69,10 @@ export interface Episode {
   overview: string,
   air_date: string
 }
+
+export interface MovieFilter {
+  movies: Movie[] | null
+  page: number
+  total_pages: number
+  limit: number
+}

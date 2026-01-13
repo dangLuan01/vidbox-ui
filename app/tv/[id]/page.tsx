@@ -2,10 +2,10 @@ export const revalidate = 900;
 export const runtime = "edge";
 
 import Footer from "@/app/components/Footer";
-import Header from "@/app/components/Header";
 import { DetailService } from "@/app/services/detailService";
 import { EpisodesBlock } from "@/app/components/EpisodesBlock";
 import Link from "next/link";
+import HeaderWatch from "@/app/components/HeaderWatch";
 
 export default async function TvPage({ params }: { params: Promise<{ id: string }> }) {
    const {id} = await params
@@ -14,7 +14,7 @@ export default async function TvPage({ params }: { params: Promise<{ id: string 
 
    return (
         <>
-         <Header />
+         <HeaderWatch />
          <div style={{position:"fixed", zIndex:"9999", top:"16px", left:"16px", right:"16px", bottom:"16px", pointerEvents:"none"}}></div>
          <main className="bg-white pb-32 text-gray-900 dark:bg-black dark:text-white">
             <div className="relative min-h-screen pb-16 text-gray-900 dark:text-gray-100 bg-white dark:bg-black">

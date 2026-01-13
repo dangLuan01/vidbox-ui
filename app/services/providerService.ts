@@ -31,7 +31,7 @@ export class ProviderService {
     }
 
     async getMovieProviders(language = this.language): Promise<Provider[]> { 
-        const data = await this.request(`/watch/providers/movie?language=${language}&page=1`)
+        const data = await this.request(`/watch/providers/movie?language=${language}&watch_region=US`)
 
         const safeData: Provider[] = data?.results.map((p: Provider) => ({
             provider_id: p.provider_id,
