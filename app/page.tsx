@@ -5,16 +5,22 @@ import { useEffect, useState } from "react";
 import { SearchService } from "./services/searchService";
 import { Movie } from "./types/movie";
 import Link from "next/link";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, } from "@/components/ui/dropdown-menu"
-import { Clapperboard, Film, Menu, MoonStar, Search, Sun } from "lucide-react"
+import { MoonStar,Sun } from "lucide-react"
+import { useRouter } from "next/navigation";
 
 export default function Home() {
-    const [query, setQuery] = useState("") 
+    const [query, setQuery]     = useState("") 
     const [results, setResults] = useState<Movie[]>([]) 
     const [loading, setLoading] = useState(false)
-    const searchServie = new SearchService()
+    const searchServie          = new SearchService()
+    const router                = useRouter()
+    const [mounted, setMounted] = useState(false)
 
-    const [theme, setTheme] = useState<"light" | "dark">(() =>{
+    useEffect(() => {
+        setMounted(true)
+    }, [])
+  
+    const [theme, setTheme]     = useState<"light" | "dark">(() =>{
         if (typeof window !== "undefined") { 
         return (
             localStorage.getItem("theme") as "light" | "dark") || 
@@ -58,11 +64,9 @@ export default function Home() {
             <div className="w-[150px]"><button className=""></button></div>
             <div className="flex items-center gap-x-2">
                 <button onClick={toggleTheme} className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:bg-transparent h-9 w-9 bg-transparent">
-                {theme === "light" ?(
-                    <MoonStar />
-                ):(
-                    <Sun />
-                )}
+                {!mounted ? ( 
+                <div className="h-6 w-6" /> 
+                ) : theme === "dark" ? ( <MoonStar /> ) : ( <Sun /> )}
                 </button>
             </div>
         </div>
@@ -120,7 +124,7 @@ export default function Home() {
                             </div>
                         </Link>
                         ))}
-                        <button className="w-full rounded-b-xl bg-gray-100 py-3 text-center text-sm font-medium text-gray-800 hover:bg-gray-200 dark:bg-[#1e2023] dark:text-gray-200 dark:hover:bg-[#26282c]">See more results</button>
+                        <button onClick={() => router.push(`search?query=${query}&page=1`)} className="w-full rounded-b-xl bg-gray-100 py-3 text-center text-sm font-medium text-gray-800 hover:bg-gray-200 dark:bg-[#1e2023] dark:text-gray-200 dark:hover:bg-[#26282c]">See more results</button>
                         </div>
                         )}
                     </div>
