@@ -2,7 +2,6 @@ export const revalidate = 900;
 export const runtime = "edge";
 
 import Footer from "@/app/components/Footer";
-import Header from "@/app/components/Header";
 import HeaderWatch from "@/app/components/HeaderWatch";
 import { DetailService } from "@/app/services/detailService";
 import { BookmarkPlus, Download, Play, Plus, Star } from "lucide-react";
@@ -13,10 +12,10 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
    const {id} = await params
    const detailService = new DetailService() 
    const tv = await detailService.getMovieDetail(id)
-   return { 
-      title: `Watch ${tv.title}`, 
-      description: tv.overview || "Watch Movies on VidHub"
-   } 
+   return {
+    title: `Watch ${tv.title}`, 
+    description: tv.overview || "Watch Movies on VidHub"
+   }
 }
 
 export default async function MoviePage({ params }: { params: Promise<{ id: string }> }) {
@@ -26,11 +25,11 @@ export default async function MoviePage({ params }: { params: Promise<{ id: stri
 
     return (
     <>
-     <HeaderWatch />
+    <HeaderWatch />
         <div style={{position:"fixed", zIndex:"9999", top:"16px", left:"16px", right:"16px", bottom:"16px", pointerEvents:"none"}}></div>
         <main className="bg-white pb-32 text-gray-900 dark:bg-black dark:text-white">
          <div className="relative min-h-screen pb-16 text-gray-900 dark:text-gray-100 bg-white dark:bg-black" >
-            <div className="hidden font-semibold sm:block" >
+            <div className="font-semibold sm:block" >
                 <div className="relative h-[100vh] w-full" >
                     <img src={movie.backdrop_path} alt={movie.title} className="fixed object-cover" style={{width:"100%",height:"100%", objectFit:"cover", position:"absolute", top:"0", left:"0"}}/>
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/60 to-white dark:via-black/20 dark:to-black" ></div>
