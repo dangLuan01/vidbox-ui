@@ -1,6 +1,6 @@
-import { Server } from "../types/server";
+import { Servers } from "../types/server";
 
-export const servers: Server[] = [
+export const servers: Servers[] = [
     {
         id: 1,
         name: "4K",
