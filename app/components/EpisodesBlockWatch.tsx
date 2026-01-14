@@ -5,6 +5,7 @@ import { Episode, TvDetail } from "../types/movie";
 import { SeasonSelectWatch } from "./SeasonSelectWatch";
 import Link from "next/link";
 import { Helper } from "../utils/helper";
+import { ArrowUpNarrowWide, Download } from "lucide-react";
 
 export function EpisodesBlockWatch({ tv, seasonSeleted, episodeSeleted }: { tv: TvDetail, seasonSeleted:number, episodeSeleted: number }) {
     const [episodes, setEpisodes]       = React.useState<Episode[]>([])
@@ -37,13 +38,7 @@ export function EpisodesBlockWatch({ tv, seasonSeleted, episodeSeleted }: { tv: 
                 onChange={(e) => setSearchTerm(e.target.value)}/>
                 <div className="mr-6 flex h-10 w-10 items-center gap-2">
                    <div onClick={() => setSortAsc(!sortAsc)}>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-arrow-up-narrow-wide cursor-pointer">
-                         <path d="m3 8 4-4 4 4"></path>
-                         <path d="M7 4v16"></path>
-                         <path d="M11 12h4"></path>
-                         <path d="M11 16h7"></path>
-                         <path d="M11 20h10"></path>
-                      </svg>
+                      <ArrowUpNarrowWide className="hover:scale-130 hover:transform"/>
                    </div>
                 </div>
              </div>
@@ -83,11 +78,7 @@ export function EpisodesBlockWatch({ tv, seasonSeleted, episodeSeleted }: { tv: 
                             </div>
                             </Link>
                             <a className="flex items-center justify-center pr-2" href={`https://dl.vidsrc.vip/tv/${tv.id}/${episode.season_number}/${episode.episode_number}`}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-download z-50">
-                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                    <polyline points="7 10 12 15 17 10"></polyline>
-                                    <line x1="12" x2="12" y1="15" y2="3"></line>
-                                </svg>
+                                <Download className="pr-1 hover:scale-130 hover:transform" />
                             </a>
                         </div>
                     </div>

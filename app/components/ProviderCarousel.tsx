@@ -57,7 +57,7 @@ export default function ProviderCarousel({providers}:{providers:Provider[]} ) {
           {providers.map((provider) => (
             <div key={provider.provider_id} className="embla__slide !w-auto mr-2">
               <Link className="group block h-[111px] w-[111px] overflow-hidden rounded-xl border border-gray-300/30 dark:border-gray-700/30 hover:border-gray-400/50 dark:hover:border-gray-600/50 hover:opacity-90 transition-all relative shadow-sm hover:shadow-md"
-                href={`/search?page=1&watch_provider=${provider.provider_id}`}>
+                href={`/search?page=1&network=${provider.provider_id}`}>
                 <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-900"></div>
                 <LazyBackground src={provider.logo_path} />
                 <div className="absolute inset-0 flex items-center justify-center">

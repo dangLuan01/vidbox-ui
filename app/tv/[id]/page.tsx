@@ -6,6 +6,18 @@ import { DetailService } from "@/app/services/detailService";
 import { EpisodesBlock } from "@/app/components/EpisodesBlock";
 import Link from "next/link";
 import HeaderWatch from "@/app/components/HeaderWatch";
+import { BookmarkPlus, Play, Plus, Star } from "lucide-react";
+import { Metadata } from "next";
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> { 
+   const {id} = await params
+   const detailService = new DetailService() 
+   const tv = await detailService.getTvDetail(id) 
+   return { 
+      title: `Watch ${tv.title}`, 
+      description: tv.overview || "Watch TV shows on VidHub"
+   } 
+} 
 
 export default async function TvPage({ params }: { params: Promise<{ id: string }> }) {
    const {id} = await params
@@ -38,9 +50,7 @@ export default async function TvPage({ params }: { params: Promise<{ id: string 
                         <div className="mb-4 flex items-center space-x-4">
                            <div className="flex items-center">
                               <h3 className="mr-4">Tv</h3>
-                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-star mr-1 h-5 w-5 fill-yellow-500 text-yellow-500">
-                                 <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                              </svg>
+                              <Star className="mr-1 h-5 w-5 fill-yellow-500 text-yellow-500"/>
                               <span>{tv.vote_average.toFixed(1) ?? "0.0"}</span>
                            </div>
                            <span>{tv.release_date.substring(0, 4) ?? ""}</span>
@@ -56,30 +66,26 @@ export default async function TvPage({ params }: { params: Promise<{ id: string 
                         <div className="hidden md:block">
                            <div className="flex items-center space-x-4">
                               <Link href={`/watch/tv/${tv.id}?season=1&episode=1`}>
-                                 <button className="inline-flex items-center justify-center whitespace-nowrap text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 shadow h-10 rounded-md mr-4 border border-white bg-white px-6 py-2 font-bold text-black transition-transform hover:scale-110 hover:bg-gray-200"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-play fill-black pr-1"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>
+                                 <button className="inline-flex items-center justify-center whitespace-nowrap text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 shadow h-10 rounded-md mr-4 border border-white bg-white px-6 py-2 font-bold text-black transition-transform hover:scale-110 hover:bg-gray-200">
+                                    <Play className="fill-black pr-1" />
                                     Play
                                  </button>
                               </Link>
                               <button className="inline-flex items-center justify-center whitespace-nowrap text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 text-secondary-foreground shadow-sm hover:bg-secondary/80 h-10 rounded-md px-8 border border-black bg-transparent font-bold dark:border-white dark:text-white lg:transition-transform lg:hover:scale-110">
-                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-plus mr-2 h-4 w-4">
-                                    <path d="M5 12h14"></path>
-                                    <path d="M12 5v14"></path>
-                                 </svg>
+                                 <Plus className="mr-2 h-4 w-4"/>
                                  Watchlist
                               </button>
                            </div>
                         </div>
                         <div className="flex flex-col gap-y-2 md:hidden">
                            <Link className="w-full block" href={`/watch/tv/${tv.id}?season=1&amp;episode=1`}>
-                              <button className="inline-flex items-center justify-center whitespace-nowrap text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-white text-black shadow hover:bg-gray-100 h-10 rounded-md px-8 w-full border border-gray-300 font-bold lg:transition-transform lg:hover:scale-110"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-play fill-black pr-1"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>
+                              <button className="inline-flex items-center justify-center whitespace-nowrap text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-white text-black shadow hover:bg-gray-100 h-10 rounded-md px-8 w-full border border-gray-300 font-bold lg:transition-transform lg:hover:scale-110">
+                                 <Play className="fill-black pr-1" />
                                 Play
                             </button>
                            </Link>
                            <button className="inline-flex items-center justify-center whitespace-nowrap text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 text-secondary-foreground shadow-sm hover:bg-secondary/80 h-10 rounded-md px-8 w-full border border-black bg-transparent font-bold dark:border-white dark:text-white lg:transition-transform lg:hover:scale-110">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-plus mr-2 h-4 w-4">
-                                 <path d="M5 12h14"></path>
-                                 <path d="M12 5v14"></path>
-                              </svg>
+                               <Plus className="mr-2 h-4 w-4"/>
                               Watchlist
                            </button>
                         </div>
@@ -141,11 +147,7 @@ export default async function TvPage({ params }: { params: Promise<{ id: string 
                                     </div>
                                  </div>
                                  <button className="absolute top-2 left-0.5 z-10 flex items-center justify-center w-8 h-8 rounded-lg transition-all duration-200 backdrop-blur-sm border border-white/20 hover:scale-110 active:scale-95 bg-black/50 text-white/70 hover:bg-blue-500/50 hover:text-white" aria-label="Add to watchlist">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-bookmark-plus h-5 w-5">
-                                       <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
-                                       <line x1="12" x2="12" y1="7" y2="13"></line>
-                                       <line x1="15" x2="9" y1="10" y2="10"></line>
-                                    </svg>
+                                    <BookmarkPlus className="h-5 w-5"/>
                                  </button>
                                  <div className="absolute right-0 top-2 flex gap-1 rounded-l bg-black bg-opacity-50 pl-1 text-xs font-semibold text-white">
                                     <svg className="h-4 w-4 fill-yellow-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

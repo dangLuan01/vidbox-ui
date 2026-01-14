@@ -1,12 +1,13 @@
 "use client"
 
 import { useState } from "react";
-import { Server } from "../types/server";
+import { Servers } from "../types/server";
+import { Bookmark, Download, Forward, Server, X } from "lucide-react";
 
 interface PlayerProps { 
     id: string
     media_type: string
-    servers: Server[]
+    servers: Servers[]
     safeSeason?: number
     safeEpisode?: number
 }
@@ -21,17 +22,12 @@ export default function Player({ id, media_type, servers, safeSeason, safeEpisod
             <button onClick={() => setOpen(!open)} className="absolute left-0 right-0 top-0 z-20 mx-auto flex h-10 w-40 items-center justify-center gap-x-2 rounded-b-[12px] bg-gradient-to-r from-blue-600 to-purple-600 text-white transition-all hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl backdrop-blur-sm border border-white/20">
                 {open ? (
                 <>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-x">
-                    <path d="M18 6 6 18"></path>
-                    <path d="m6 6 12 12"></path>
-                </svg>
+                <X />
                 Close
                 </>
                 ):(
                 <>
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 md:h-7 md:w-7" viewBox="0 0 24 24">
-                <path fill="currentColor" d="M20 3H4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-5 5h-2V6h2zm4 0h-2V6h2zm1 5H4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2zm-5 5h-2v-2h2zm4 0h-2v-2h2z"></path>
-                </svg>
+                <Server />
                 Select a server
                 </>
                 )}
@@ -81,25 +77,16 @@ export default function Player({ id, media_type, servers, safeSeason, safeEpisod
         {media_type === "movie" ?(
             <div className="relative z-10 mx-auto -mt-[5px] flex w-full items-center justify-center gap-x-4 rounded-b-lg bg-gray-900 py-1 text-sm text-white lg:w-3/4">
             <button className="flex cursor-pointer items-center gap-x-1 rounded-md transition-all">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-bookmark h-4 w-4">
-                    <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
-                </svg>
+                <Bookmark className="h-4 w-4"/>
                 <span className="hidden lg:block">Add to Watchlist</span>
             </button>
             <label className="flex cursor-pointer items-center gap-x-1 rounded-md transition-all">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-forward h-4 w-4">
-                    <polyline points="15 17 20 12 15 7"></polyline>
-                    <path d="M4 18v-2a4 4 0 0 1 4-4h12"></path>
-                </svg>
+                <Forward className="h-4 w-4"/>
                 <span className="hidden lg:block">Share</span>
             </label>
             <a href={`https://dl.vidsrc.vip/${media_type}/${id}`}>
                 <label className="flex cursor-pointer items-center gap-x-1 rounded-md transition-all">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-download h-4 w-4">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                        <polyline points="7 10 12 15 17 10"></polyline>
-                        <line x1="12" x2="12" y1="15" y2="3"></line>
-                    </svg>
+                    <Download className="h-4 w-4"/>
                     <span className="hidden lg:block">Download</span>
                 </label>
             </a>
@@ -117,25 +104,16 @@ export default function Player({ id, media_type, servers, safeSeason, safeEpisod
                 </span>
             </div>
             <button className="flex cursor-pointer items-center gap-x-1 rounded-md transition-all">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-bookmark h-4 w-4">
-                    <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
-                </svg>
+                <Bookmark className="h-4 w-4"/>
                 <span className="hidden lg:block">Add to Watchlist</span>
             </button>
             <label className="flex cursor-pointer items-center gap-x-1 rounded-md transition-all">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-forward h-4 w-4">
-                    <polyline points="15 17 20 12 15 7"></polyline>
-                    <path d="M4 18v-2a4 4 0 0 1 4-4h12"></path>
-                </svg>
+                <Forward className="h-4 w-4"/>
                 <span className="hidden lg:block">Share</span>
             </label>
             <a href={`https://dl.vidsrc.vip/${media_type}/${id}/${safeSeason}/${safeEpisode}`}>
                 <label className="flex cursor-pointer items-center gap-x-1 rounded-md transition-all">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-download h-4 w-4">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                        <polyline points="7 10 12 15 17 10"></polyline>
-                        <line x1="12" x2="12" y1="15" y2="3"></line>
-                    </svg>
+                    <Download className="h-4 w-4"/>
                     <span className="hidden lg:block">Download</span>
                 </label>
             </a>

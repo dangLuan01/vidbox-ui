@@ -4,7 +4,18 @@ import HeaderWatch from "@/app/components/HeaderWatch";
 import { DetailService } from "@/app/services/detailService";
 import Player from "@/app/components/Player";
 import { servers } from "@/app/data/server";
+import { Metadata } from "next";
+import { Bell, X } from "lucide-react";
 
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> { 
+   const {id} = await params
+   const detailService = new DetailService() 
+   const tv = await detailService.getMovieDetail(id)
+   return { 
+      title: `Watch ${tv.title}`, 
+      description: tv.overview || "Watch Movies on VidHub"
+   } 
+}
 
 export default async function MoviePage({ params }: { params: Promise<{ id: string }> }) {
     const {id}          = await params
@@ -27,16 +38,10 @@ export default async function MoviePage({ params }: { params: Promise<{ id: stri
                     <h1 className="truncate pb-5 text-center text-xl font-semibold">Now Watching: <span className="font-bold">{movie.title}</span></h1>
                     <div className="mx-auto mb-2 flex w-full items-center rounded-lg text-white shadow-lg backdrop-blur-sm lg:w-3/4 lg:pl-6" style={{background: "linear-gradient(90deg, rgb(255, 0, 0) 0%, rgb(255, 68, 68) 50%, rgb(255, 102, 102) 100%)"}}>
                     <div className="flex w-full items-center justify-center gap-x-2 p-2 text-sm">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-bell h-3 w-3 fill-white">
-                            <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
-                            <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
-                        </svg>
+                        <Bell className="h-3 w-3 fill-white"/>
                         <span className="text-[7px] xs:text-[12px] sm:text-[12px] md:text-sm lg:text-base">Please switch to other servers if default server doesnt work.</span>
                     </div>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-x h-8 w-8 cursor-pointer justify-end pr-2">
-                        <path d="M18 6 6 18"></path>
-                        <path d="m6 6 12 12"></path>
-                    </svg>
+                    <X className="cursor-pointer justify-end pr-2"/>
                     </div>
                     <Player id={id} media_type="movie" servers={servers}/>
                 </div>
