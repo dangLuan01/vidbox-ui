@@ -4,6 +4,7 @@ import * as React from "react"
 import { SeasonSelect } from "@/app/components/SeasonSelect";
 import { Episode, TvDetail } from "../types/movie";
 import Link from "next/link";
+import { Helper } from "../utils/helper";
 
 export function EpisodesBlock({ tv }: { tv: TvDetail }) {
     const [episodes, setEpisodes]       = React.useState<Episode[]>([])
@@ -63,6 +64,9 @@ export function EpisodesBlock({ tv }: { tv: TvDetail }) {
                                 />
                                 <div className="absolute inset-0">
                                     <div className="absolute left-0 top-0 rounded-br-md rounded-tl-md bg-black bg-opacity-70 px-2 py-1 text-sm text-white">{episode.episode_number}</div>
+                                </div>
+                                <div className="absolute inset-0">
+                                    <div className="absolute right-0 bottom-0 rounded-br-md rounded-tl-md bg-black bg-opacity-70 px-2 py-1 text-sm text-white">{Helper.formatRuntime(episode.runtime)}</div>
                                 </div>
                             </div>
                             <div className="flex flex-1 flex-col justify-center p-2">

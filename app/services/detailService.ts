@@ -107,6 +107,7 @@ export class DetailService {
             season_number: e.season_number,
             episode_number: e.episode_number,
             name: e.name,
+            runtime: e.runtime ?? 0,
             still_path: e.still_path ? this.baseUrlImage + '/t/p/w500' + e.still_path : this.baseUrlImage + '/t/p/w500' + data.poster_path,
             overview: e.overview ? e.overview : e.air_date
         }))

@@ -6,6 +6,7 @@ import { SearchService } from "../services/searchService"
 import { Movie } from "../types/movie"
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, } from "@/components/ui/dropdown-menu"
 import { Clapperboard, Film, Home, Menu, MoonStar, Search, Sun } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 export default function Header() {
   const [mounted, setMounted] = useState(false)
@@ -18,8 +19,8 @@ export default function Header() {
   const [results, setResults] = useState<Movie[]>([]) 
   const [loading, setLoading] = useState(false)
   const searchServie          = new SearchService()
-
-  const [theme, setTheme] = useState<"light" | "dark">(() =>{
+  const router                = useRouter()
+  const [theme, setTheme]     = useState<"light" | "dark">(() =>{
     if (typeof window !== "undefined") { 
       return (
         localStorage.getItem("theme") as "light" | "dark") || 
@@ -119,7 +120,7 @@ export default function Header() {
                  </div>
               </Link>
               ))}
-              <button className="w-full rounded-b-xl bg-gray-100 py-3 text-center text-sm font-medium text-gray-800 hover:bg-gray-200 dark:bg-[#1e2023] dark:text-gray-200 dark:hover:bg-[#26282c]">See more results</button>
+              <button onClick={() => router.push(`/search?query=${query}&page=1`)} className="w-full rounded-b-xl bg-gray-100 py-3 text-center text-sm font-medium text-gray-800 hover:bg-gray-200 dark:bg-[#1e2023] dark:text-gray-200 dark:hover:bg-[#26282c]">See more results</button>
             </div>
             )}
           </div>

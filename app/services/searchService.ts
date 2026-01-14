@@ -65,7 +65,16 @@ export class SearchService {
         
         if (filters.genreId) params.append("with_genres", filters.genreId.toString())
         if (filters.popularId) params.append("sort_by", filters.popularId)
-        if (filters.year) params.append("primary_release_year", filters.year)
+        if (filters.year) {
+            switch (filters.typeId) {
+                case "tv":
+                    params.append("first_air_date_year", filters.year)
+                    break;
+                default:
+                    params.append("primary_release_year", filters.year)
+                    break;
+            }
+        }
         if (filters.countryId) params.append("with_origin_country", filters.countryId)
         if (filters.networkId) {
             params.append("with_watch_providers", filters.networkId.toString())
@@ -78,24 +87,24 @@ export class SearchService {
         if (filters.rating) params.append("vote_average.gte", filters.rating)
             
         
-        var query1 = `/discover/${filters.typeId === 'movie' ? 'movie' : 'tv'}?include_adult=false&language=en-US&page=${page}&${params}`
+        var query1 = `/discover/${filters.typeId === 'tv' ? 'tv' : 'movie'}?include_adult=false&language=en-US&page=${page}&${params}`
         if (filters.popularId && filters.popularId === "top_rated") {
-            query1 = `/${filters.typeId === 'movie' ? 'movie' : 'tv'}/top_rated?page=${page}&${params}`
+            query1 = `/${filters.typeId === 'tv' ? 'tv' : 'movie'}/top_rated?page=${page}&${params}`
         }
+
         if (filters.query) {
             switch (filters.typeId) {
                 case "tv":
-                    query1 = `/search/tv?query=${filters.query}&include_adult=true&page=${page}`    
+                    query1 = `/search/tv?query=${filters.query}&include_adult=true&page=${page}&${params}`    
                     break;
                 case "movie":
-                    query1 = `/search/movie?query=${filters.query}&include_adult=true&page=${page}`
+                    query1 = `/search/movie?query=${filters.query}&include_adult=true&page=${page}&${params}`
                     break;
                 default:
-                    query1 = `/search/multi?query=${filters.query}&include_adult=true&page=${page}`
+                    query1 = `/search/multi?query=${filters.query}&include_adult=true&page=${page}&${params}`
                     break;
             }        
         }
-        
         
         const data = await this.request(query1)
 

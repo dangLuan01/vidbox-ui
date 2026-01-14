@@ -41,7 +41,7 @@ export default function FilterSearch({genres, networks, countries}: {
     const page = Number(searchParams.get("page")) || 1
     const [filters, setFilters] = useState<Filters>({
         query: searchParams.get("query") ?? null,
-        typeId: searchParams.get("type") ?? "movie",
+        typeId: searchParams.get("type") ?? "all",
         typeName: "Type",
         genreId: searchParams.get("genre") ? Number(searchParams.get("genre")) : null,
         genreName: "All genres",
@@ -55,114 +55,16 @@ export default function FilterSearch({genres, networks, countries}: {
         rating: searchParams.get("rating") ?? "Ratings", 
     })
 
-    function onSearch(query: string | null) {
+    function onSelect(select: string, value: string | null) {
         const params = new URLSearchParams(searchParams.toString())
 
-        if (query) {
-            params.set("query", query)
+        if (value) {
+            params.set(select, value)
         } else {
-            params.delete("query")
-        }
-
-        params.set("page", "1")
-
-        router.push(`?${params.toString()}`)
-    }
-
-    function onSelectType(typeId: string | null) {
-        const params = new URLSearchParams(searchParams.toString())
-
-        if (typeId) {
-            params.set("type", typeId)
-        } else {
-            params.delete("type")
+            params.delete(select)
         }
 
         params.set("page", "1") 
-
-        router.push(`?${params.toString()}`)
-    }
-
-    function onSelectGenre(genreId: number | null) {
-        const params = new URLSearchParams(searchParams.toString())
-
-        if (genreId) {
-            params.set("genre", genreId.toString())
-        } else {
-            params.delete("genre")
-        }
-
-        params.set("page", "1")
-
-        router.push(`?${params.toString()}`)
-    }
-
-    function onSelectPopular(popularId: string | null) {
-        const params = new URLSearchParams(searchParams.toString())
-
-        if (popularId) {
-            params.set("popular", popularId)
-        } else {
-            params.delete("popular")
-        }
-
-        params.set("page", "1") 
-
-        router.push(`?${params.toString()}`)
-    }
-
-    function onSelectYear(year: string | null) {
-        const params = new URLSearchParams(searchParams.toString())
-
-        if (year) {
-            params.set("year", year)
-        } else {
-            params.delete("year")
-        }
-
-        params.set("page", "1")
-
-        router.push(`?${params.toString()}`)
-    }
-
-    function onSelectCountry(countryId: string | null) {
-        const params = new URLSearchParams(searchParams.toString())
-
-        if (countryId) {
-            params.set("country", countryId)
-        } else {
-            params.delete("country")
-        }
-
-        params.set("page", "1")
-
-        router.push(`?${params.toString()}`)
-    }
-
-    function onSelectNetwork(networkId: string | null) {
-        const params = new URLSearchParams(searchParams.toString())
-
-        if (networkId) {
-            params.set("network", networkId)
-        } else {
-            params.delete("network")
-        }
-
-        params.set("page", "1")
-
-        router.push(`?${params.toString()}`)
-    }
-
-    function onSelectRating(rating: string | null) {
-        const params = new URLSearchParams(searchParams.toString())
-
-        if (rating) {
-            params.set("rating", rating)
-        } else {
-            params.delete("rating")
-        }
-
-        params.set("page", "1")
 
         router.push(`?${params.toString()}`)
     }
@@ -220,29 +122,30 @@ export default function FilterSearch({genres, networks, countries}: {
 
     useEffect(() => {
         let timeout: NodeJS.Timeout | null = null
-        setMovies(prev => {
-            if (!prev) {
-                return {
-                    movies: null,
-                    page: 1,
-                    total_pages: 0,
-                    limit: 20,
-                }
-            }
-            return {
-                ...prev,
-                movies: null,
-            }
-        })
+        
 
-        async function fetchFilter () {  
+        async function fetchFilter () {
+            setMovies(prev => {
+                if (!prev) {
+                    return {
+                        movies: null,
+                        page: 1,
+                        total_pages: 0,
+                        limit: 20,
+                    }
+                }
+                return {
+                    ...prev,
+                    movies: null,
+                }
+            })
             const moviesFilter = await searchService.getFilterMovie(filters, page)
             setMovies(moviesFilter) 
         }
         if (filters.query) {
             timeout = setTimeout(() => {
                 fetchFilter()
-            }, 700)
+            }, 800)
         } else {
             fetchFilter()
         }
@@ -259,22 +162,18 @@ export default function FilterSearch({genres, networks, countries}: {
         let l
 
         for (let i = 1; i <= total; i++) {
-            if (
-            i === 1 ||
-            i === total ||
-            (i >= current - delta && i <= current + delta)
-            ) {
-            range.push(i)
+            if ( i === 1 || i === total || (i >= current - delta && i <= current + delta)) {
+                range.push(i)
             }
         }
 
         for (const i of range) {
             if (l) {
-            if (i - l === 2) {
-                rangeWithDots.push(l + 1)
-            } else if (i - l !== 1) {
-                rangeWithDots.push("...")
-            }
+                if (i - l === 2) {
+                    rangeWithDots.push(l + 1)
+                } else if (i - l !== 1) {
+                    rangeWithDots.push("...")
+                }
             }
             rangeWithDots.push(i)
             l = i
@@ -282,25 +181,40 @@ export default function FilterSearch({genres, networks, countries}: {
 
         return rangeWithDots
     }
-
-    const [searchText, setSearchText] = useState("")
+    const [searchText, setSearchText] = useState(filters.query ?? "")
     useEffect(() => {
-    const timeout = setTimeout(() => {
-        onSearch(searchText)
-    }, 500)
+        const timeout = setTimeout(() => {
+            onSelect("query", searchText)
+        }, 500)
 
-    return () => clearTimeout(timeout)
+        return () => clearTimeout(timeout)
     }, [searchText])
 
+    const resetFilters = () => {
+        setFilters({
+            query: searchParams.get("query") ?? null,
+            typeId: searchParams.get("type") ?? "all",
+            typeName: "Type",
+            genreId: searchParams.get("genre") ? Number(searchParams.get("genre")) : null,
+            genreName: "All genres",
+            popularId: searchParams.get("popular"),
+            popularName: "Popular",
+            networkId: searchParams.get("network") ? Number(searchParams.get("network")) : null,
+            networkName: "Select network",
+            year: searchParams.get("year") ?? "Years",
+            countryId: searchParams.get("country"),
+            countryName: "Country", 
+            rating: searchParams.get("rating") ?? "Ratings", 
+        })
+    }
     
     return (
         <>
         <div className="flex flex-col gap-4">
             <input className="flex h-9 border border-input bg-transparent px-3 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 w-full rounded-lg py-4 capitalize text-black dark:text-white outline-none ring-0 focus:outline-none focus-visible:outline-none focus:ring-0 focus-visible:ring-0 caret-white" 
-            placeholder="Search..." autoComplete="off" autoCorrect="off" spellCheck="false" value={filters.query ?? ""}
+            placeholder="Search..." value={searchText}
             onChange={(e) =>{
-                const value = e.target.value
-                onSearch(value)
+                setSearchText(e.target.value)
             }}/>
             <div className="flex flex-col gap-4">
                 <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:flex xl:items-center xl:gap-0 xl:space-x-2">
@@ -319,8 +233,7 @@ export default function FilterSearch({genres, networks, countries}: {
                                 <CommandGroup>
                                     {types.map((type) => ( 
                                         <CommandItem key={type.value} onSelect={() => {
-                                            onSelectType(type.value)
-                                            // setPage(1)
+                                            onSelect("type", type.value)
                                             setOpenType(false) 
                                         }} > {type.name} 
                                         </CommandItem> 
@@ -345,13 +258,13 @@ export default function FilterSearch({genres, networks, countries}: {
                                 </CommandEmpty> 
                                 <CommandGroup> 
                                     <CommandItem onSelect={() => {
-                                        onSelectGenre(null)
+                                        onSelect("genre", null)
                                         setOpenGenre(false) 
                                     }} > All genres
                                     </CommandItem>
                                     {genres.map((genre) => ( 
                                     <CommandItem key={genre.id} value={genre.name} onSelect={() => {
-                                        onSelectGenre(genre.id)
+                                        onSelect("genre", genre.id.toString())
                                         setOpenGenre(false) 
                                     }} > {genre.name}
                                     </CommandItem> ))} 
@@ -374,7 +287,7 @@ export default function FilterSearch({genres, networks, countries}: {
                                 <CommandGroup> 
                                     {populars.map((popular) => ( 
                                         <CommandItem key={popular.value} onSelect={() => { 
-                                            onSelectPopular(popular.value)
+                                            onSelect("popular", popular.value)
                                             setOpenPopular(false) 
                                         }} > {popular.name} 
                                         </CommandItem> 
@@ -399,13 +312,13 @@ export default function FilterSearch({genres, networks, countries}: {
                                 </CommandEmpty> 
                                 <CommandGroup> 
                                     <CommandItem onSelect={() => {
-                                        onSelectYear(null)
+                                        onSelect("year", null)
                                         setOpenYear(false) 
                                     }} > Years
                                     </CommandItem>
                                     {years.map((year) => ( 
                                     <CommandItem key={year} value={year.toString()} onSelect={() => {
-                                        onSelectYear(year.toString())
+                                        onSelect("year", year.toString())
                                         setOpenYear(false) 
                                     }} > {year}
                                     </CommandItem> ))} 
@@ -429,13 +342,13 @@ export default function FilterSearch({genres, networks, countries}: {
                                 </CommandEmpty> 
                                 <CommandGroup> 
                                     <CommandItem onSelect={() => {
-                                        onSelectNetwork(null)
+                                        onSelect("network", null)
                                         setOpenNetwork(false)
                                     }} > Networks
                                     </CommandItem>
                                     {networks.map((network) => ( 
                                     <CommandItem key={network.provider_id} value={network.provider_name} onSelect={() => {
-                                        onSelectNetwork(network.provider_id.toString())
+                                        onSelect("network", network.provider_id.toString())
                                         setOpenNetwork(false)
                                     }} > {network.provider_name}
                                     </CommandItem> ))} 
@@ -459,14 +372,13 @@ export default function FilterSearch({genres, networks, countries}: {
                                 </CommandEmpty> 
                                 <CommandGroup> 
                                     <CommandItem value="" onSelect={() => { 
-                                        
-                                        onSelectCountry(null)
+                                        onSelect("country", null)
                                         setOpenCountry(false) 
                                     }} > Country
                                     </CommandItem> 
                                     {countries.map((country) => ( 
                                     <CommandItem key={country.iso_3166_1} value={country.english_name} onSelect={() => {
-                                        onSelectCountry(country.iso_3166_1)
+                                        onSelect("country", country.iso_3166_1)
                                         setOpenCountry(false) 
                                     }} > {country.english_name}
                                     </CommandItem> ))} 
@@ -488,14 +400,13 @@ export default function FilterSearch({genres, networks, countries}: {
                             <Command>
                                 <CommandGroup> 
                                     <CommandItem value="" onSelect={() => { 
-                                        onSelectRating(null)
+                                        onSelect("rating", null)
                                         setOpenRating(false) 
                                     }} > Rating
                                     </CommandItem> 
                                     {ratings.map((rating) => (
                                         <CommandItem key={rating} value={rating} onSelect={() => { 
-                                           
-                                        onSelectRating(rating)
+                                        onSelect("rating", rating)
                                         setOpenRating(false) 
                                         }} > {`${rating} + ⭐`}
                                         </CommandItem> 
@@ -504,7 +415,7 @@ export default function FilterSearch({genres, networks, countries}: {
                             </Command> 
                         </PopoverContent> 
                     </Popover>
-                    <button className="flex items-center justify-center gap-x-2 rounded-md bg-red-500 px-3 py-2 text-sm font-medium text-destructive-foreground hover:bg-destructive/90">
+                    <button onClick={resetFilters} className="flex items-center justify-center gap-x-2 rounded-md bg-red-500 px-3 py-2 text-sm font-medium text-destructive-foreground hover:bg-destructive/90">
                         <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M4.85355 2.14645C5.04882 2.34171 5.04882 2.65829 4.85355 2.85355L3.70711 4H9C11.4853 4 13.5 6.01472 13.5 8.5C13.5 10.9853 11.4853 13 9 13H5C4.72386 13 4.5 12.7761 4.5 12.5C4.5 12.2239 4.72386 12 5 12H9C10.933 12 12.5 10.433 12.5 8.5C12.5 6.567 10.933 5 9 5H3.70711L4.85355 6.14645C5.04882 6.34171 5.04882 6.65829 4.85355 6.85355C4.65829 7.04882 4.34171 7.04882 4.14645 6.85355L2.14645 4.85355C1.95118 4.65829 1.95118 4.34171 2.14645 4.14645L4.14645 2.14645C4.34171 1.95118 4.65829 1.95118 4.85355 2.14645Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path>
                         </svg>
@@ -517,7 +428,7 @@ export default function FilterSearch({genres, networks, countries}: {
             {movies?.movies?.length === 0 && ( <p className="text-gray-500 ">No results found</p> )} 
             {movies?.movies?.map((movie) => (
             <div className="relative overflow-hidden rounded-md hover:text-white aspect-[2/3]">
-                <Link href={`/${filters.typeId === "movie" ? "movie" : "tv"}/${movie.id}`}>
+                <Link href={`/${movie.media_type ? movie.media_type : filters.typeId === "tv" ? "tv" : "movie"}/${movie.id}`}>
                     <div className="relative rounded-sm w-full h-full">
                     <img className="transition-opacity duration-300 opacity-100" alt="The Tank" width="300" height="450" style={{objectFit: "cover"}} 
                     src={movie.poster_path} />

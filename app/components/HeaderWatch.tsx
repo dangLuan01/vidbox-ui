@@ -13,6 +13,7 @@ export default function HeaderWatch() {
   useEffect(() => {
     setMounted(true)
   }, [])
+  
   const [theme, setTheme] = useState<"light" | "dark">(() =>{
     if (typeof window !== "undefined") { 
       return (

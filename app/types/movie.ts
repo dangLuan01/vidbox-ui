@@ -65,6 +65,7 @@ export interface Episode {
   season_number: number,
   episode_number: number,
   name: string,
+  runtime: number,
   still_path: string,
   overview: string,
   air_date: string
