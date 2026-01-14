@@ -40,7 +40,7 @@ export default async function TvPage({ params }: { params: Promise<{ id: string 
                </div>
                <div className="relative z-10 mx-auto -mt-96 max-w-screen-xl px-4 md:px-8 lg:px-12 xl:px-16">
                   <div className="flex flex-col md:flex-row md:items-start md:space-x-32">
-                     <div className="hidden flex-shrink-0 md:block md:w-1/3 lg:w-1/4">
+                     <div className="flex-shrink-0 md:block md:w-1/3 lg:w-1/4">
                         <img className="mx-auto rounded-xl shadow-xl md:mx-0" 
                         alt={tv.title} width="300" height="450" 
                         src={tv.poster_path}/>
