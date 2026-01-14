@@ -14,7 +14,7 @@ export default async function Search() {
         <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-6">Streaming Providers</h1>
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-9 xl:grid-cols-10 gap-6">
             {providers.map((provider) => (
-            <Link className="group block h-[111px] w-[111px] overflow-hidden rounded-lg hover:opacity-90 transition-all relative" href={`/search?page=1&watch_provider=${provider.provider_id}`}>
+            <Link className="group block h-[111px] w-[111px] overflow-hidden rounded-lg hover:opacity-90 transition-all relative" href={`/search?page=1&network=${provider.provider_id}`}>
                 <div className="absolute inset-0 scale-[1.2]" style={{backgroundImage:`url(${provider.logo_path})`, backgroundPosition:"center", filter:"brightness(1.4) blur(16px)"}}></div>
                 <div className="absolute inset-0 flex items-center justify-center">
                     <div className="h-[70px] w-[70px] rounded-full overflow-hidden shadow-lg group-hover:scale-105 transition-transform">

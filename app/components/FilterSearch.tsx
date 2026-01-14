@@ -2,10 +2,10 @@
 
 import { Popover, PopoverTrigger, PopoverContent, } from "@/components/ui/popover" 
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, } from "@/components/ui/command" 
-import { ChevronDown } from "lucide-react"
+import { BookmarkPlus, ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Undo2 } from "lucide-react"
 
 import { Genre } from "../types/genre"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Provider } from "../types/provider"
 import { Country } from "../types/country"
 import { Filters } from "../types/filter"
@@ -416,9 +416,7 @@ export default function FilterSearch({genres, networks, countries}: {
                         </PopoverContent> 
                     </Popover>
                     <button onClick={resetFilters} className="flex items-center justify-center gap-x-2 rounded-md bg-red-500 px-3 py-2 text-sm font-medium text-destructive-foreground hover:bg-destructive/90">
-                        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M4.85355 2.14645C5.04882 2.34171 5.04882 2.65829 4.85355 2.85355L3.70711 4H9C11.4853 4 13.5 6.01472 13.5 8.5C13.5 10.9853 11.4853 13 9 13H5C4.72386 13 4.5 12.7761 4.5 12.5C4.5 12.2239 4.72386 12 5 12H9C10.933 12 12.5 10.433 12.5 8.5C12.5 6.567 10.933 5 9 5H3.70711L4.85355 6.14645C5.04882 6.34171 5.04882 6.65829 4.85355 6.85355C4.65829 7.04882 4.34171 7.04882 4.14645 6.85355L2.14645 4.85355C1.95118 4.65829 1.95118 4.34171 2.14645 4.14645L4.14645 2.14645C4.34171 1.95118 4.65829 1.95118 4.85355 2.14645Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path>
-                        </svg>
+                        <Undo2 />
                         Reset
                     </button>
                 </div>
@@ -427,17 +425,13 @@ export default function FilterSearch({genres, networks, countries}: {
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7">
             {movies?.movies?.length === 0 && ( <p className="text-gray-500 ">No results found</p> )} 
             {movies?.movies?.map((movie) => (
-            <div className="relative overflow-hidden rounded-md hover:text-white aspect-[2/3]">
+            <div key={movie.id} className="relative overflow-hidden rounded-md hover:text-white aspect-[2/3]">
                 <Link href={`/${movie.media_type ? movie.media_type : filters.typeId === "tv" ? "tv" : "movie"}/${movie.id}`}>
                     <div className="relative rounded-sm w-full h-full">
                     <img className="transition-opacity duration-300 opacity-100" alt="The Tank" width="300" height="450" style={{objectFit: "cover"}} 
                     src={movie.poster_path} />
                     <button className="absolute top-2 left-0.5 z-10 flex items-center justify-center w-8 h-8 rounded-lg transition-all duration-200 backdrop-blur-sm border border-white/20 hover:scale-110 active:scale-95 bg-black/50 text-white/70 hover:bg-blue-500/50 hover:text-white" aria-label="Add to watchlist">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-bookmark-plus h-5 w-5">
-                            <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
-                            <line x1="12" x2="12" y1="7" y2="13"></line>
-                            <line x1="15" x2="9" y1="10" y2="10"></line>
-                        </svg>
+                        <BookmarkPlus className="h-5 w-5"/>
                     </button>
                     <div className="absolute right-0 top-2 flex gap-1 rounded-l bg-black bg-opacity-50 pl-1 text-xs font-semibold text-white">
                         <svg className="h-4 w-4 fill-yellow-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -458,21 +452,14 @@ export default function FilterSearch({genres, networks, countries}: {
                             <button className="flex h-7 w-7 sm:h-10 sm:w-10 items-center justify-center rounded-md bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-gray-100 dark:disabled:hover:bg-gray-700"
                                 disabled={page === 1}
                                 onClick={() => goToPage(1)} aria-label="First page">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-chevron-left h-2.5 w-2.5 sm:h-4 sm:w-4">
-                                    <path d="m15 18-6-6 6-6"></path>
-                                </svg>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-chevron-left h-2.5 w-2.5 sm:h-4 sm:w-4 -ml-0.5 sm:-ml-2">
-                                    <path d="m15 18-6-6 6-6"></path>
-                                </svg>
+                                <ChevronsLeft />
                             </button>
 
                             {/* Prev */}
                             <button className="flex h-7 w-7 sm:h-10 sm:w-10 items-center justify-center rounded-md bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-gray-100 dark:disabled:hover:bg-gray-700"
                                 disabled={page === 1}
                                 onClick={() => goToPage(page - 1)}  aria-label="Previous page">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-chevron-left h-2.5 w-2.5 sm:h-4 sm:w-4">
-                                    <path d="m15 18-6-6 6-6"></path>
-                                </svg>
+                            <ChevronLeft />
                             </button>
 
                             {/* Pages */}
@@ -500,23 +487,15 @@ export default function FilterSearch({genres, networks, countries}: {
                             <button className="flex h-7 w-7 sm:h-10 sm:w-10 items-center justify-center rounded-md bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-gray-100 dark:disabled:hover:bg-gray-700"
                                 disabled={page === movies?.total_pages}
                                 onClick={() => goToPage(page + 1)} aria-label="Next page">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-chevron-right h-2.5 w-2.5 sm:h-4 sm:w-4">
-                                    <path d="m9 18 6-6-6-6"></path>
-                                </svg>
+                                <ChevronRight />
                             </button>
 
                             {/* Last */}
                             <button className="flex h-7 w-7 sm:h-10 sm:w-10 items-center justify-center rounded-md bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-gray-100 dark:disabled:hover:bg-gray-700"
                                 disabled={page === movies?.total_pages}
                                 onClick={() => goToPage(movies!.total_pages)} aria-label="Last page">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-chevron-right h-2.5 w-2.5 sm:h-4 sm:w-4">
-                                    <path d="m9 18 6-6-6-6"></path>
-                                </svg>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-chevron-right h-2.5 w-2.5 sm:h-4 sm:w-4 -ml-0.5 sm:-ml-2">
-                                    <path d="m9 18 6-6-6-6"></path>
-                                </svg>
+                               <ChevronsRight />
                             </button>
-
                         </div>
                     </div>
                 <div className="mt-4 text-center ">
