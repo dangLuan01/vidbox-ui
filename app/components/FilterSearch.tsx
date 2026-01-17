@@ -19,8 +19,8 @@ const searchService     = new SearchService()
 export default function FilterSearch({genres, networks, countries}: { 
     genres: Genre[], networks: Provider[], countries: Country[],
 }) {
-    const searchParams = useSearchParams()
-    const router = useRouter()
+    const searchParams                  = useSearchParams()
+    const router                        = useRouter()
     const [openType, setOpenType]       = useState(false) 
     const [openGenre, setOpenGenre]     = useState(false) 
     const [openPopular, setOpenPopular] = useState(false) 
@@ -40,6 +40,7 @@ export default function FilterSearch({genres, networks, countries}: {
    
     const page = Number(searchParams.get("page")) || 1
     const [filters, setFilters] = useState<Filters>({
+        topic: searchParams.get("topic") ?? null,
         query: searchParams.get("query") ?? null,
         typeId: searchParams.get("type") ?? "all",
         typeName: "Type",
@@ -57,7 +58,7 @@ export default function FilterSearch({genres, networks, countries}: {
 
     function onSelect(select: string, value: string | null) {
         const params = new URLSearchParams(searchParams.toString())
-
+        
         if (value) {
             params.set(select, value)
         } else {
@@ -78,6 +79,9 @@ export default function FilterSearch({genres, networks, countries}: {
     useEffect(() => {
         setFilters(prev => ({
             ...prev,
+            topic: searchParams.get("topic")
+            ? searchParams.get("topic")
+            : null,
             query: searchParams.get("query")
             ? searchParams.get("query")
             : null,
@@ -122,7 +126,6 @@ export default function FilterSearch({genres, networks, countries}: {
 
     useEffect(() => {
         let timeout: NodeJS.Timeout | null = null
-        
 
         async function fetchFilter () {
             setMovies(prev => {
@@ -181,10 +184,14 @@ export default function FilterSearch({genres, networks, countries}: {
 
         return rangeWithDots
     }
+
     const [searchText, setSearchText] = useState(filters.query ?? "")
     useEffect(() => {
+        const queryParam = searchParams.get("query") ?? ""
+        if (searchText === queryParam) return 
         const timeout = setTimeout(() => {
-            onSelect("query", searchText)
+            
+            onSelect("query", searchText || null)
         }, 500)
 
         return () => clearTimeout(timeout)
@@ -192,6 +199,7 @@ export default function FilterSearch({genres, networks, countries}: {
 
     const resetFilters = () => {
         setFilters({
+            topic: searchParams.get("topic") ?? null,
             query: searchParams.get("query") ?? null,
             typeId: searchParams.get("type") ?? "all",
             typeName: "Type",

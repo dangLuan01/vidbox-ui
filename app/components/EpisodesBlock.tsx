@@ -6,12 +6,13 @@ import { Episode, TvDetail } from "../types/movie";
 import Link from "next/link";
 import { Helper } from "../utils/helper";
 import { ArrowUpNarrowWide, Download } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export function EpisodesBlock({ tv }: { tv: TvDetail }) {
     const [episodes, setEpisodes]       = React.useState<Episode[]>([])
     const [sortAsc, setSortAsc]         = React.useState(true)
     const [searchTerm, setSearchTerm]   = React.useState("")
-
+    const router                        = useRouter()
     const visibleEpisodes = [...episodes]
         .filter((ep) => {
             const term = searchTerm.toLowerCase() 
@@ -50,25 +51,26 @@ export function EpisodesBlock({ tv }: { tv: TvDetail }) {
                     {visibleEpisodes.map((episode)=> (
                     <div key={episode.episode_number} className="">
                         <div className="mb-2 flex h-20 w-full cursor-pointer gap-2 overflow-hidden rounded-md transition-colors bg-gray-100 hover:bg-gray-200 dark:bg-[#2a2a30] dark:hover:bg-gray-700">
-                            <Link className="flex flex-1 gap-2 overflow-hidden" href={`/watch/tv/${tv.id}?season=${episode.season_number}&episode=${episode.episode_number}`}>
-                            <div className="relative h-full min-w-36">
-                                <img className="rounded-l-md object-cover" alt={episode.name} style={{width: "100%", height: "100%", position: "absolute", top: "0px", left: "0px", objectFit: "cover"}} 
-                                src={episode.still_path}
-                                loading="lazy"
-                                decoding="async"
-                                />
-                                <div className="absolute inset-0">
-                                    <div className="absolute left-0 top-0 rounded-br-md rounded-tl-md bg-black bg-opacity-70 px-2 py-1 text-sm text-white">{episode.episode_number}</div>
+                            <button className="flex flex-1 gap-2 overflow-hidden items-start text-left" 
+                                onClick={() => router.push(`/review/tv/${tv.id}?season=${episode.season_number}&episode=${episode.episode_number}`)}>
+                                <div className="relative h-full min-w-36">
+                                    <img className="rounded-l-md object-cover" alt={episode.name} style={{width: "100%", height: "100%", position: "absolute", top: "0px", left: "0px", objectFit: "cover"}} 
+                                    src={episode.still_path}
+                                    loading="lazy"
+                                    decoding="async"
+                                    />
+                                    <div className="absolute inset-0">
+                                        <div className="absolute left-0 top-0 rounded-br-md rounded-tl-md bg-black bg-opacity-70 px-2 py-1 text-sm text-white">{episode.episode_number}</div>
+                                    </div>
+                                    <div className="absolute inset-0">
+                                        <div className="absolute right-0 bottom-0 rounded-br-md rounded-tl-md bg-black bg-opacity-70 px-2 py-1 text-sm text-white">{Helper.formatRuntime(episode.runtime)}</div>
+                                    </div>
                                 </div>
-                                <div className="absolute inset-0">
-                                    <div className="absolute right-0 bottom-0 rounded-br-md rounded-tl-md bg-black bg-opacity-70 px-2 py-1 text-sm text-white">{Helper.formatRuntime(episode.runtime)}</div>
+                                <div className="flex flex-1 flex-col justify-center p-2">
+                                    <h2 className="text-sm font-semibold">{episode.name}</h2>
+                                    <p className="line-clamp-2 text-xs text-gray-600 dark:text-gray-400">{episode.overview}</p>
                                 </div>
-                            </div>
-                            <div className="flex flex-1 flex-col justify-center p-2">
-                                <h2 className="text-sm font-semibold">{episode.name}</h2>
-                                <p className="line-clamp-2 text-xs text-gray-600 dark:text-gray-400">{episode.overview}</p>
-                            </div>
-                            </Link>
+                            </button>
                             <a className="flex items-center justify-center pr-2" href={`https://dl.vidsrc.vip/tv/${tv.id}/${episode.season_number}/${episode.episode_number}`}>
                                 <Download className="pr-1 hover:scale-130 hover:transform" />
                             </a>

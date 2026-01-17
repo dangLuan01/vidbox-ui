@@ -170,7 +170,7 @@ export default function Home() {
                             playback, adjusting to your internet connection for uninterrupted enjoyment.</p>
                         <p className="leading-relaxed">vidbox.cc also understands the importance of convenience and
                             accessibility. Our platform is compatible with various devices, including laptops, tablets, and
-                            smartphones, allowing you to watch movies anytime, anywhere. Whether you're at home or on the
+                            smartphones, allowing you to review movies anytime, anywhere. Whether you're at home or on the
                             go, vidbox.cc keeps you connected to your favorite films.</p>
                         <p className="leading-relaxed">Furthermore, vidbox.cc fosters a vibrant community of
                             movie enthusiasts. Engage in discussions, share reviews, and interact with fellow cinephiles

@@ -24,8 +24,8 @@ export default function Footer() {
                 <div className="flex flex-col items-center justify-between text-sm md:flex-row">
                     <p
                         className="mx-auto mb-4 max-w-4xl text-center bg-gradient-to-r from-[#ff5722] via-[#ff7f2a] to-[#ffb02e] bg-clip-text text-transparent md:mb-0">
-                        vidbox.to is top of free streaming website, where to watch movies online free without
-                        registration required. With a big database and great features, we're confident. vidbox.to is the
+                        xoailac.top is top of free streaming website, where to review movies online free without
+                        registration required. With a big database and great features, we're confident. xoailac.top is the
                         best free movies online website in the space that you can't simply miss!</p>
                 </div>
                 <div className="mt-4 text-center text-xs">

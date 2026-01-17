@@ -3,15 +3,15 @@
 import * as React from "react"
 import { Episode, TvDetail } from "../types/movie";
 import { SeasonSelectWatch } from "./SeasonSelectWatch";
-import Link from "next/link";
 import { Helper } from "../utils/helper";
 import { ArrowUpNarrowWide, Download } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export function EpisodesBlockWatch({ tv, seasonSeleted, episodeSeleted }: { tv: TvDetail, seasonSeleted:number, episodeSeleted: number }) {
     const [episodes, setEpisodes]       = React.useState<Episode[]>([])
     const [sortAsc, setSortAsc]         = React.useState(true)
     const [searchTerm, setSearchTerm]   = React.useState("")
-
+    const router                        = useRouter()
     const visibleEpisodes = [...episodes]
         .filter((ep) => {
             const term = searchTerm.toLowerCase() 
@@ -50,7 +50,8 @@ export function EpisodesBlockWatch({ tv, seasonSeleted, episodeSeleted }: { tv: 
                     {visibleEpisodes.map((episode)=> (
                     <div key={episode.episode_number} className="">
                         <div className={`mb-2 flex h-20 w-full cursor-pointer gap-2 overflow-hidden rounded-md transition-colors ${episode.episode_number === episodeSeleted && episode.season_number === seasonSeleted ? 'bg-gray-400 dark:bg-gray-900' : 'bg-gray-100 hover:bg-gray-200 dark:bg-[#2a2a30] dark:hover:bg-gray-700'}`}>
-                            <Link className="flex flex-1 gap-2 overflow-hidden" href={`/watch/tv/${tv.id}?season=${episode.season_number}&episode=${episode.episode_number}`}>
+                            <button className="flex flex-1 gap-2 overflow-hidden items-start text-left" 
+                            onClick={() => router.push(`/review/tv/${tv.id}?season=${episode.season_number}&episode=${episode.episode_number}`)}>
                             <div className="relative h-full min-w-36">
                                 <img className={`rounded-l-md object-cover ${episode.episode_number === episodeSeleted && episode.season_number === seasonSeleted ? 'blur-[1.3px]' : null}`} alt={episode.name} style={{width: "100%", height: "100%", position: "absolute", top: "0px", left: "0px", objectFit: "cover"}} 
                                 src={episode.still_path}
@@ -76,7 +77,7 @@ export function EpisodesBlockWatch({ tv, seasonSeleted, episodeSeleted }: { tv: 
                                 <h2 className="text-sm font-semibold">{episode.name}</h2>
                                 <p className="line-clamp-2 text-xs text-gray-600 dark:text-gray-400">{episode.overview}</p>
                             </div>
-                            </Link>
+                            </button>
                             <a className="flex items-center justify-center pr-2" href={`https://dl.vidsrc.vip/tv/${tv.id}/${episode.season_number}/${episode.episode_number}`}>
                                 <Download className="pr-1 hover:scale-130 hover:transform" />
                             </a>

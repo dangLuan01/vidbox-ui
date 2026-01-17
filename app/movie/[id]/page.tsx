@@ -1,10 +1,12 @@
 export const revalidate = 900;
 export const runtime = "edge";
 
+import MoviePlayButton from "@/app/components/Button/MoviePlayButton";
+import PlayButton from "@/app/components/Button/MoviePlayButton";
 import Footer from "@/app/components/Footer";
 import HeaderWatch from "@/app/components/HeaderWatch";
 import { DetailService } from "@/app/services/detailService";
-import { BookmarkPlus, Download, Play, Plus, Star } from "lucide-react";
+import { BookmarkPlus, Download, Plus, Star } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
 
@@ -13,8 +15,8 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
    const detailService = new DetailService() 
    const tv = await detailService.getMovieDetail(id)
    return {
-    title: `Watch ${tv.title}`, 
-    description: tv.overview || "Watch Movies on VidHub"
+    title: `Life Lessons From ${tv.title}`,
+    description: tv.overview || "Review Movies on VidHub"
    }
 }
 
@@ -58,12 +60,7 @@ export default async function MoviePage({ params }: { params: Promise<{ id: stri
                         </div>
                         <p className="mb-6 text-lg">{movie.overview}</p>
                         <div className="flex items-center space-x-4" >
-                            <Link href={`/watch/movie/${movie.id}`}>
-                                <button className="inline-flex items-center justify-center whitespace-nowrap text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 shadow h-10 rounded-md mr-4 border border-white bg-white px-6 py-2 font-bold text-black transition-transform hover:scale-110 hover:bg-gray-200">
-                                    <Play className="fill-black pr-1" />
-                                    Play
-                                </button>
-                            </Link>
+                            <MoviePlayButton url={`/review/movie/${movie.id}`}/>
                             <button className="inline-flex items-center justify-center whitespace-nowrap text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 text-secondary-foreground shadow-sm hover:bg-secondary/80 h-10 rounded-md px-8 border border-black bg-transparent font-bold transition-transform hover:scale-110 dark:border-white dark:text-white">
                                 <Plus className="mr-2 h-4 w-4"/>
                                 Watchlist

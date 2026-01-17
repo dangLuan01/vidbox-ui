@@ -1,6 +1,8 @@
+import { topics } from "../data/topics"
 import { Country } from "../types/country"
 import { Filters } from "../types/filter"
 import { Movie, MovieFilter } from "../types/movie"
+import { Topic } from "../types/topic"
 
 export class SearchService {
     private baseUrl: string
@@ -104,6 +106,10 @@ export class SearchService {
                     query1 = `/search/multi?query=${filters.query}&include_adult=true&page=${page}&${params}`
                     break;
             }        
+        }
+
+        if (filters.topic) {
+            query1 = `${topics.find((t: Topic) => t.id === Number(filters.topic))?.url_topic}&page=${page}`
         }
         
         const data = await this.request(query1)
