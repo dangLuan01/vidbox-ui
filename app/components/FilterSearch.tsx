@@ -58,7 +58,7 @@ export default function FilterSearch({genres, networks, countries}: {
 
     function onSelect(select: string, value: string | null) {
         const params = new URLSearchParams(searchParams.toString())
-        
+        params.delete("topic")
         if (value) {
             params.set(select, value)
         } else {
