@@ -21,9 +21,7 @@ export default async function Search() {
     <>
     <HeaderWatch />
     <div className="mx-auto w-full max-w-[1440px] pt-20 space-y-4 px-4 md:px-6 lg:px-8 py-6 min-h-[80vh]">
-        
         <FilterSearch genres={genres} networks={networks} countries={countries}/>
-        
     </div>
     <Footer />
     </>

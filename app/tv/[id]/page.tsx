@@ -8,14 +8,15 @@ import Link from "next/link";
 import HeaderWatch from "@/app/components/HeaderWatch";
 import { BookmarkPlus, Play, Plus, Star } from "lucide-react";
 import { Metadata } from "next";
+import TvPlayButton from "@/app/components/Button/TvPlayButton";
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> { 
    const {id} = await params
    const detailService = new DetailService() 
    const tv = await detailService.getTvDetail(id) 
    return { 
-      title: `Watch ${tv.title}`, 
-      description: tv.overview || "Watch TV shows on VidHub"
+      title: `Life Lessons From ${tv.title}`, 
+      description: tv.overview || "Review TV on VidHub"
    } 
 } 
 
@@ -65,12 +66,7 @@ export default async function TvPage({ params }: { params: Promise<{ id: string 
                         <p className="mb-6 text-lg">{tv.overview}</p>
                         <div className="hidden md:block">
                            <div className="flex items-center space-x-4">
-                              <Link href={`/watch/tv/${tv.id}?season=1&episode=1`}>
-                                 <button className="inline-flex items-center justify-center whitespace-nowrap text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 shadow h-10 rounded-md mr-4 border border-white bg-white px-6 py-2 font-bold text-black transition-transform hover:scale-110 hover:bg-gray-200">
-                                    <Play className="fill-black pr-1" />
-                                    Play
-                                 </button>
-                              </Link>
+                              <TvPlayButton url={`/review/tv/${tv.id}?season=1&episode=1`} type="desktop"/>
                               <button className="inline-flex items-center justify-center whitespace-nowrap text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 text-secondary-foreground shadow-sm hover:bg-secondary/80 h-10 rounded-md px-8 border border-black bg-transparent font-bold dark:border-white dark:text-white lg:transition-transform lg:hover:scale-110">
                                  <Plus className="mr-2 h-4 w-4"/>
                                  Watchlist
@@ -78,12 +74,7 @@ export default async function TvPage({ params }: { params: Promise<{ id: string 
                            </div>
                         </div>
                         <div className="flex flex-col gap-y-2 md:hidden">
-                           <Link className="w-full block" href={`/watch/tv/${tv.id}?season=1&amp;episode=1`}>
-                              <button className="inline-flex items-center justify-center whitespace-nowrap text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-white text-black shadow hover:bg-gray-100 h-10 rounded-md px-8 w-full border border-gray-300 font-bold lg:transition-transform lg:hover:scale-110">
-                                 <Play className="fill-black pr-1" />
-                                Play
-                            </button>
-                           </Link>
+                           <TvPlayButton url={`/review/tv/${tv.id}?season=1&episode=1`} type="mobile"/>
                            <button className="inline-flex items-center justify-center whitespace-nowrap text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 text-secondary-foreground shadow-sm hover:bg-secondary/80 h-10 rounded-md px-8 w-full border border-black bg-transparent font-bold dark:border-white dark:text-white lg:transition-transform lg:hover:scale-110">
                                <Plus className="mr-2 h-4 w-4"/>
                               Watchlist

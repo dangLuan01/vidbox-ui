@@ -66,7 +66,7 @@ export default async function Home() {
                           {t.title}
                       </h1>
                       <span className="text-gray-400">|</span>
-                      <Link href="/search?type=movie&amp;now_playing=true" className="text-xs font-medium text-[rgb(2_120_253/var(--tw-text-opacity,1))] dark:text-[rgb(2_120_253/var(--tw-text-opacity,1))] hover:opacity-90"
+                      <Link href={`/search?topic=${t.id}`} className="text-xs font-medium text-[rgb(2_120_253/var(--tw-text-opacity,1))] dark:text-[rgb(2_120_253/var(--tw-text-opacity,1))] hover:opacity-90"
                           style={{transition:"opacity 0.2s ease", cursor:"pointer"}}>
                           View All
                       </Link>

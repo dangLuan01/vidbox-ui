@@ -13,8 +13,8 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
    const detailService = new DetailService() 
    const tv = await detailService.getTvDetail(id)
    return { 
-      title: `Watch ${tv.title}`, 
-      description: tv.overview || "Watch Movies on VidHub"
+      title: `Life Lessons From ${tv.title}`, 
+      description: tv.overview || "Review Tv on VidHub"
    } 
 }
 

@@ -3,14 +3,16 @@
 import { Movie } from "@/app/types/movie"
 import { BookmarkPlus } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 
 export default function MovieCard({ movie, media_type }: { movie: Movie, media_type: string }) {
+  const router                = useRouter()
   const [hovered, setHovered] = useState(false) 
-  const [side, setSide] = useState<"left" | "right">("right") 
-  const cardRef = useRef<HTMLDivElement>(null) 
-  const popupWidth = 360 
-  const handleEnter = () => { 
+  const [side, setSide]       = useState<"left" | "right">("right") 
+  const cardRef               = useRef<HTMLDivElement>(null) 
+  const popupWidth            = 360 
+  const handleEnter           = () => { 
     if (cardRef.current) { 
       const rect = cardRef.current.getBoundingClientRect()
       if (rect.right + popupWidth > window.innerWidth) { 
@@ -22,6 +24,7 @@ export default function MovieCard({ movie, media_type }: { movie: Movie, media_t
     setHovered(true) 
   } 
   const handleLeave = () => setHovered(false)
+  
 
   return (
     <div ref={cardRef}
@@ -116,16 +119,16 @@ export default function MovieCard({ movie, media_type }: { movie: Movie, media_t
               <p className="line-clamp-2 text-sm text-gray-300">{movie.overview}</p>
             </div>
             <div className="flex items-center gap-2">
-                <Link
-                  className="flex flex-1 items-center justify-center gap-2 rounded-[6px] bg-white px-4 py-2 text-sm font-semibold text-black transition-colors hover:bg-gray-200"
-                  href={movie.media_type === "movie" ? `/watch/${movie.media_type}/${movie.id}` : `/watch/${movie.media_type}/${movie.id}?season=1&episode=1`}>
+                <button
+                  onClick={() => router.push(`/review/${movie.media_type ? movie.media_type : media_type}/${movie.id}`)}
+                  className="flex flex-1 items-center justify-center gap-2 rounded-[6px] bg-white px-4 py-2 text-sm font-semibold text-black transition-colors hover:bg-gray-200">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                       viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} stroke-linecap="round"
                       stroke-linejoin="round" className="lucide lucide-play">
                       <polygon points="6 3 20 12 6 21 6 3"></polygon>
                   </svg>
                   Watch Now
-                </Link>
+                </button>
                 <div className="relative">
                   <button aria-label="Add to watchlist"
                   className="flex h-9 w-9 items-center justify-center rounded-[6px] border backdrop-blur-md shadow-sm transition-colors bg-white/15 text-white border-white/25 hover:bg-white/25"

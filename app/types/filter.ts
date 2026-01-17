@@ -1,4 +1,5 @@
 export interface Filters {
+  topic: string | null
   query:string | null
   typeId: string | null
   typeName: string

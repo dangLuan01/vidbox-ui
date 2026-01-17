@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Servers } from "../types/server";
-import { Bookmark, Download, Forward, Server, X } from "lucide-react";
+import { Bookmark, Check, Download, Forward, Server, X } from "lucide-react";
 
 interface PlayerProps { 
     id: string
@@ -51,9 +51,7 @@ export default function Player({ id, media_type, servers, safeSeason, safeEpisod
                                     <img alt={server.name} className="w-4 h-3 sm:w-5 sm:h-4 md:w-6 md:h-4 rounded-sm object-cover shadow-sm" src={server.image}/>
                                     {selectedServer.id === server.id ? (
                                         <div className="absolute -top-0.5 -right-0.5 sm:-top-1 sm:-right-1 w-3 h-3 sm:w-4 sm:h-4 bg-green-500 rounded-full flex items-center justify-center">
-                                            <svg className="w-2 h-2 sm:w-2.5 sm:h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                            </svg>
+                                            <Check />
                                         </div>
                                     ): null}
                                 </div>
