@@ -3,7 +3,6 @@
 import * as React from "react"
 import { SeasonSelect } from "@/app/components/SeasonSelect";
 import { Episode, TvDetail } from "../types/movie";
-import Link from "next/link";
 import { Helper } from "../utils/helper";
 import { ArrowUpNarrowWide, Download } from "lucide-react";
 import { useRouter } from "next/navigation";
