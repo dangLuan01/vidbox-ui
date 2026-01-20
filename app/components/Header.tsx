@@ -107,7 +107,9 @@ export default function Header() {
               {loading && <div className="p-3 text-sm text-gray-500">Loading...</div>}
               {results.map((movie) => (
                 <Link key={movie.id} href={`/${movie.media_type}/${movie.id}`} className="group flex cursor-pointer items-center gap-3 px-3 py-3 hover:bg-gray-50 dark:hover:bg-[#222225]">
-                 <img alt={movie.title} width="48" height="64" className="h-16 w-12 rounded object-cover" src={movie.poster_path}/>
+                 <img alt={movie.title} width="48" height="64" 
+                 className="h-16 w-12 rounded object-cover" 
+                 src={movie.poster_path} loading="lazy" decoding="async"/>
                  <div className="flex flex-col">
                     <span className="text-sm dark:text-white dark:group-hover:text-white">{movie.title}</span>
                     <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400 dark:group-hover:text-gray-300">
