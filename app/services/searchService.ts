@@ -47,7 +47,7 @@ export class SearchService {
         const data = await this.request(`/search/multi?query=${query}&include_adult=true&language=${language}&page=${page}`)
 
         const safeData: Movie[] = data?.results.
-            filter((m:any) => m.media_type !== "person").
+            filter((m:any) => m.media_type !== "person" && m.poster_path != null).
             map((m: Movie) => ({
             id: m.id,
             poster_path: this.baseUrlImage + '/t/p/w92' + m.poster_path,
@@ -118,11 +118,11 @@ export class SearchService {
             page: data.page,
             total_pages: data.total_pages,
             limit: 20,
-            movies: data. results.map((m: Movie) => ({
+            movies: data.results.filter((m:any) => m.media_type !== "person" && m.poster_path != null).map((m: Movie) => ({
                 id: m.id,
                 poster_path: this.baseUrlImage + '/t/p/w342' + m.poster_path,
                 title: m.title ? m.title : m.name,
-                media_type: m.media_type,
+                media_type: filters.topic ? topics.find((t: Topic) => t.id === Number(filters.topic))?.media_type : m.media_type,
                 release_date: m.release_date ? m.release_date : m.first_air_date,
                 vote_average: m.vote_average ? m.vote_average : 0.0,
             }))

@@ -15,7 +15,6 @@ export default async function Search() {
         providerService.getMovieProviders("en-US"),
         searchService.getCountry()
     ]) 
-
     
     return (
     <>

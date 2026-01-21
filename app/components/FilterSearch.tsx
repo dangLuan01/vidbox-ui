@@ -2,7 +2,7 @@
 
 import { Popover, PopoverTrigger, PopoverContent, } from "@/components/ui/popover" 
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, } from "@/components/ui/command" 
-import { BookmarkPlus, ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Undo2 } from "lucide-react"
+import { BookmarkPlus, ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Star, Undo2 } from "lucide-react"
 
 import { Genre } from "../types/genre"
 import { useEffect, useRef, useState } from "react"
@@ -442,9 +442,7 @@ export default function FilterSearch({genres, networks, countries}: {
                         <BookmarkPlus className="h-5 w-5"/>
                     </button>
                     <div className="absolute right-0 top-2 flex gap-1 rounded-l bg-black bg-opacity-50 pl-1 text-xs font-semibold text-white">
-                        <svg className="h-4 w-4 fill-yellow-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
-                        </svg>
+                        <Star className="h-4 w-4 fill-yellow-500" strokeWidth="0.5"/>
                         {movie.vote_average.toFixed(1)}
                     </div>
                     </div>

@@ -2,7 +2,6 @@ export const revalidate = 900;
 export const runtime = "edge";
 
 import MoviePlayButton from "@/app/components/Button/MoviePlayButton";
-import PlayButton from "@/app/components/Button/MoviePlayButton";
 import Footer from "@/app/components/Footer";
 import HeaderWatch from "@/app/components/HeaderWatch";
 import { DetailService } from "@/app/services/detailService";
@@ -46,10 +45,10 @@ export default async function MoviePage({ params }: { params: Promise<{ id: stri
                         <div className="mb-4 flex items-center space-x-4" >
                             <div className="flex items-center" >
                                 <h3 className="mr-4">Movie</h3>
-                                <Star className="mr-1 h-5 w-5 fill-yellow-500 text-yellow-500"/>
+                                <Star className="mr-1 h-5 w-5 fill-yellow-500 text-yellow-500" strokeWidth="0.5"/>
                                 <span>{movie.vote_average.toFixed(1)}</span>
                             </div>
-                            <span>{movie.release_date.substring(0, 4)}</span>
+                            <span>{movie.release_date?.substring(0, 4)}</span>
                         </div>
                         <div className="mb-4 flex flex-wrap gap-2">
                             {movie.genres?.map((genre)=>(
@@ -105,17 +104,15 @@ export default async function MoviePage({ params }: { params: Promise<{ id: stri
                                             <img alt="play" width="25" height="25" src="/icon-play.png" />
                                             <div className="absolute bottom-2 px-1 text-center text-sm font-semibold leading-snug sm:text-base">
                                             <h3 className="mb-2 line-clamp-2 text-xs font-semibold">{movie.title}</h3>
-                                            <p className="-mt-2 text-[10px] text-gray-400 uppercase">{movie.media_type} / {movie.release_date.substring(0, 4)}</p>
-                                            </div>
+                                            <p className="-mt-2 text-[10px] text-gray-400 uppercase">{movie.media_type} / {movie.release_date?.substring(0, 4)}</p>
+                                        </div>
                                         </div>
                                         <button className="absolute top-2 left-0.5 z-10 flex items-center justify-center w-8 h-8 rounded-lg transition-all duration-200 backdrop-blur-sm border border-white/20 hover:scale-110 active:scale-95 bg-black/50 text-white/70 hover:bg-blue-500/50 hover:text-white" aria-label="Add to watchlist">
                                            <BookmarkPlus className="h-5 w-5"/>
                                         </button>
                                         <div className="absolute right-0 top-2 flex gap-1 rounded-l bg-black bg-opacity-50 pl-1 text-xs font-semibold text-white">
-                                            <svg className="h-4 w-4 fill-yellow-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
-                                            </svg>
-                                            {movie.vote_average.toFixed(1)}
+                                            <Star className="h-4 w-4 fill-yellow-500 text-yellow-500" strokeWidth="0.5"/>
+                                            {movie.vote_average?.toFixed(1)}
                                         </div>
                                     </div>
                                 </Link>
