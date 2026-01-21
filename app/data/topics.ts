@@ -32,6 +32,30 @@ export const topics: Topic[] = [
         url_topic:"/discover/movie?sort_by=popularity.desc&with_watch_providers=8&watch_region=US",
         color: "dark:from-red-400 dark:to-red-800",
         priority: 2
-    }
+    },
+    {
+        id: 5,
+        title:"Apple TV+ Shows",
+        media_type:"tv",
+        url_topic:"/discover/tv?sort_by=popularity.desc&with_watch_providers=350&watch_region=US",
+        color: "dark:from-orange-400 dark:to-orange-800",
+        priority: 2
+    },
+    {
+        id: 6,
+        title:"Disney+ Shows",
+        media_type:"tv",
+        url_topic:"/discover/tv?sort_by=popularity.desc&with_watch_providers=337&watch_region=US",
+        color: "dark:from-yellow-400 dark:to-yellow-800",
+        priority: 2
+    },
+    {
+        id: 7,
+        title:"Max Shows",
+        media_type:"tv",
+        url_topic:"/discover/tv?sort_by=popularity.desc&with_watch_providers=1899&watch_region=US",
+        color: "dark:from-amber-400 dark:to-amber-800",
+        priority: 2
+    },
 
 ]

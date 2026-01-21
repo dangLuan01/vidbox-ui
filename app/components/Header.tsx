@@ -49,7 +49,8 @@ export default function Header() {
       return 
     } 
     const delayDebounce = setTimeout(async () => { 
-      setLoading(true) 
+      setLoading(true)
+      setResults([])
       const movie = await searchServie.searchMovie(query, "en-US")
       setResults(movie || [])
       setLoading(false)
@@ -117,7 +118,7 @@ export default function Header() {
                       <span>•</span>
                       <span className="flex items-center">⭐ {movie.vote_average.toFixed(1) ?? "0.0"}</span>
                       <span>•</span>
-                      <span>{movie.release_date ?? ""}</span>
+                      <span>{movie.release_date?.substring(0, 4) ?? ""}</span>
                     </div>
                  </div>
               </Link>

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Servers } from "../types/server";
-import { Bookmark, Check, Download, Forward, Server, X } from "lucide-react";
+import { Bookmark, Check, Download, Forward, HardDrive, Server, X } from "lucide-react";
 
 interface PlayerProps { 
     id: string
@@ -27,7 +27,9 @@ export default function Player({ id, media_type, servers, safeSeason, safeEpisod
                 </>
                 ):(
                 <>
-                <Server />
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 md:h-7 md:w-7" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M20 3H4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-5 5h-2V6h2zm4 0h-2V6h2zm1 5H4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2zm-5 5h-2v-2h2zm4 0h-2v-2z"></path>
+                </svg>
                 Select a server
                 </>
                 )}

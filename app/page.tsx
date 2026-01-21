@@ -150,38 +150,38 @@ export default function Home() {
                         <h2
                             className="mb-4 text-lg sm:text-xl md:text-2xl font-semibold leading-tight text-gray-800 dark:text-gray-300">
                             Vidbox - Watch Movies Online in HD for Free!</h2>
-                        <p className="leading-relaxed">vidbox.cc - the ultimate online movie streaming website that
+                        <p className="leading-relaxed">www.xoailac.top - the ultimate online movie streaming website that
                             brings the magic of cinema to your fingertips. With a vast and diverse database, as well as a
-                            multitude of exciting features,vidbox.cc offers an unparalleled movie-watching
+                            multitude of exciting features,www.xoailac.top offers an unparalleled movie-watching
                             experience for film enthusiasts worldwide.</p>
-                        <p className="leading-relaxed">At vidbox.cc, we take pride in our extensive database
+                        <p className="leading-relaxed">At www.xoailac.top, we take pride in our extensive database
                             that encompasses a wide range of movies from various genres, eras, and countries. From Hollywood
                             blockbusters to independent gems, we have something for everyone. Our database is continuously
                             updated with the latest releases, ensuring that you stay up-to-date with the hottest films in
                             the industry.</p>
-                        <p className="leading-relaxed">One of the standout features of vidbox.cc is our
+                        <p className="leading-relaxed">One of the standout features of www.xoailac.top is our
                             personalized recommendation system. Our sophisticated algorithms analyze your viewing history,
                             preferences, and ratings to curate a customized list of movie recommendations tailored
                             specifically to your tastes. Discover new films you'll love and embark on exciting cinematic
                             adventures you never knew existed.</p>
                         <p className="leading-relaxed">In addition to our large database and personalized recommendations,
-                            vidbox.cc offers high-quality streaming for an immersive viewing experience.
+                            www.xoailac.top offers high-quality streaming for an immersive viewing experience.
                             Enjoy movies in stunning high-definition resolution, accompanied by crisp audio, bringing the
                             theater experience right to your home. Our adaptive streaming technology ensures smooth
                             playback, adjusting to your internet connection for uninterrupted enjoyment.</p>
-                        <p className="leading-relaxed">vidbox.cc also understands the importance of convenience and
+                        <p className="leading-relaxed">www.xoailac.top also understands the importance of convenience and
                             accessibility. Our platform is compatible with various devices, including laptops, tablets, and
                             smartphones, allowing you to review movies anytime, anywhere. Whether you're at home or on the
-                            go, vidbox.cc keeps you connected to your favorite films.</p>
-                        <p className="leading-relaxed">Furthermore, vidbox.cc fosters a vibrant community of
+                            go, www.xoailac.top keeps you connected to your favorite films.</p>
+                        <p className="leading-relaxed">Furthermore, www.xoailac.top fosters a vibrant community of
                             movie enthusiasts. Engage in discussions, share reviews, and interact with fellow cinephiles
                             through our dedicated forums and social features. Connect with like-minded individuals, exchange
                             recommendations, and dive deeper into the world of cinema.</p>
-                        <p className="leading-relaxed">In summary, vidbox.cc is the ultimate online movie
+                        <p className="leading-relaxed">In summary, www.xoailac.top is the ultimate online movie
                             streaming destination, offering a vast database, personalized recommendations, high-quality
                             streaming, device compatibility, and an engaging community. Prepare to be captivated by the
                             world of cinema as you embark on a cinematic journey like no other. Welcome to
-                            vidbox.cc, where movies come to life.</p>
+                            www.xoailac.top, where movies come to life.</p>
                     </div>
                 </main>
             </div>
