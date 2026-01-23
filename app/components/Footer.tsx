@@ -48,7 +48,7 @@ export default function Footer() {
                     <div className="absolute z-50 mt-2 w-full max-h-[70vh] overflow-auto rounded-xl border border-gray-200 bg-white/95 p-0 shadow-2xl backdrop-blur-md dark:border-gray-700 dark:bg-[#1a1b1e]/95 divide-y divide-gray-200 dark:divide-gray-700 left-0 right-0">
                         {loading && <div className="p-3 text-sm text-gray-500">Loading...</div>}
                         {results.map((movie) => (
-                        <div key={movie.id} className="group flex cursor-pointer items-center gap-3 px-3 py-3 hover:bg-gray-50 dark:hover:bg-[#222225]">
+                        <Link href={movie.media_type + '/' + movie.id} key={movie.id} className="group flex cursor-pointer items-center gap-3 px-3 py-3 hover:bg-gray-50 dark:hover:bg-[#222225]">
                             <img alt={movie.title} width="48" height="64" className="h-16 w-12 rounded object-cover" 
                             src={movie.poster_path} 
                             loading="lazy" decoding="async"/>
@@ -62,7 +62,7 @@ export default function Footer() {
                                     <span>{movie.release_date?.substring(0, 4)}</span>
                                 </div>
                             </div>
-                        </div>
+                        </Link>
                         ))}
                         <button onClick={() => router.push(`/search?query=${query}&page=1`)} className="w-full rounded-b-xl bg-gray-100 py-3 text-center text-sm font-medium text-gray-800 hover:bg-gray-200 dark:bg-[#1e2023] dark:text-gray-200 dark:hover:bg-[#26282c]">See more results</button>
                     </div>

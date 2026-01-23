@@ -121,8 +121,10 @@ export class SearchService {
             movies: data.results.filter((m:any) => m.media_type !== "person" && m.poster_path != null).map((m: Movie) => ({
                 id: m.id,
                 poster_path: this.baseUrlImage + '/t/p/w342' + m.poster_path,
+                backdrop_path: this.baseUrlImage + '/t/p/w500' + m.backdrop_path,
                 title: m.title ? m.title : m.name,
-                media_type: filters.topic ? topics.find((t: Topic) => t.id === Number(filters.topic))?.media_type : m.media_type,
+                overview:m.overview,
+                media_type: filters.topic ? topics.find((t: Topic) => t.id === Number(filters.topic))?.media_type : m.media_type ? m.media_type : filters.typeId,
                 release_date: m.release_date ? m.release_date : m.first_air_date,
                 vote_average: m.vote_average ? m.vote_average : 0.0,
             }))

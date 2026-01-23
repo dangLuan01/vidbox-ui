@@ -2,7 +2,7 @@
 
 import { Popover, PopoverTrigger, PopoverContent, } from "@/components/ui/popover" 
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, } from "@/components/ui/command" 
-import { BookmarkPlus, ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Star, Undo2 } from "lucide-react"
+import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Undo2 } from "lucide-react"
 
 import { Genre } from "../types/genre"
 import { useEffect, useRef, useState } from "react"
@@ -12,8 +12,8 @@ import { Filters } from "../types/filter"
 import { MovieFilter } from "../types/movie"
 import { SearchService } from "../services/searchService"
 import { populars, types } from "../data/filters"
-import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
+import MovieCardFilter from "./MovieCardFilter"
 const searchService     = new SearchService()
 
 export default function FilterSearch({genres, networks, countries}: { 
@@ -27,7 +27,8 @@ export default function FilterSearch({genres, networks, countries}: {
     const [openNetwork, setOpenNetwork] = useState(false) 
     const [openYear, setOpenYear]       = useState(false) 
     const [openCountry, setOpenCountry] = useState(false) 
-    const [openRating, setOpenRating]   = useState(false) 
+    const [openRating, setOpenRating]   = useState(false)
+
     const [movies, setMovies]           = useState<MovieFilter | null>({
         movies: null,
         page: 1,
@@ -42,7 +43,7 @@ export default function FilterSearch({genres, networks, countries}: {
     const [filters, setFilters] = useState<Filters>({
         topic: searchParams.get("topic") ?? null,
         query: searchParams.get("query") ?? null,
-        typeId: searchParams.get("type") ?? "all",
+        typeId: searchParams.get("type") ?? "movie",
         typeName: "Type",
         genreId: searchParams.get("genre") ? Number(searchParams.get("genre")) : null,
         genreName: "All genres",
@@ -93,7 +94,7 @@ export default function FilterSearch({genres, networks, countries}: {
             : "All genres",
             typeId: searchParams.get("type")
             ? searchParams.get("type")
-            : null,
+            : "movie",
             typeName: searchParams.get("type")
             ? types.find(t => t.value === searchParams.get("type"))?.name ?? "Type"
             : "Type",
@@ -201,7 +202,7 @@ export default function FilterSearch({genres, networks, countries}: {
         setFilters({
             topic: searchParams.get("topic") ?? null,
             query: searchParams.get("query") ?? null,
-            typeId: searchParams.get("type") ?? "all",
+            typeId: searchParams.get("type") ?? "movie",
             typeName: "Type",
             genreId: searchParams.get("genre") ? Number(searchParams.get("genre")) : null,
             genreName: "All genres",
@@ -214,6 +215,8 @@ export default function FilterSearch({genres, networks, countries}: {
             countryName: "Country", 
             rating: searchParams.get("rating") ?? "Ratings", 
         })
+        
+        router.push('?page=1')
     }
     
     return (
@@ -433,21 +436,7 @@ export default function FilterSearch({genres, networks, countries}: {
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7">
             {movies?.movies?.length === 0 && ( <p className="text-gray-500 ">No results found</p> )} 
             {movies?.movies?.map((movie) => (
-            <div key={movie.id} className="relative overflow-hidden rounded-md hover:text-white aspect-[2/3]">
-                <Link href={`/${movie.media_type ? movie.media_type : filters.typeId === "tv" ? "tv" : "movie"}/${movie.id}`}>
-                    <div className="relative rounded-sm w-full h-full">
-                    <img className="transition-opacity duration-300 opacity-100" alt="The Tank" width="300" height="450" style={{objectFit: "cover"}} 
-                    src={movie.poster_path} />
-                    <button className="absolute top-2 left-0.5 z-10 flex items-center justify-center w-8 h-8 rounded-lg transition-all duration-200 backdrop-blur-sm border border-white/20 hover:scale-110 active:scale-95 bg-black/50 text-white/70 hover:bg-blue-500/50 hover:text-white" aria-label="Add to watchlist">
-                        <BookmarkPlus className="h-5 w-5"/>
-                    </button>
-                    <div className="absolute right-0 top-2 flex gap-1 rounded-l bg-black bg-opacity-50 pl-1 text-xs font-semibold text-white">
-                        <Star className="h-4 w-4 fill-yellow-500" strokeWidth="0.5"/>
-                        {movie.vote_average.toFixed(1)}
-                    </div>
-                    </div>
-                </Link>
-            </div>
+                <MovieCardFilter key={movie.id} movie={movie}/>
             ))}
         </div>
         <nav className="mt-12 mx-auto w-full" aria-label="Pagination">
