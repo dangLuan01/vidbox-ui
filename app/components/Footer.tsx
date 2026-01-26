@@ -48,10 +48,10 @@ export default function Footer() {
                     <div className="absolute z-50 mt-2 w-full max-h-[70vh] overflow-auto rounded-xl border border-gray-200 bg-white/95 p-0 shadow-2xl backdrop-blur-md dark:border-gray-700 dark:bg-[#1a1b1e]/95 divide-y divide-gray-200 dark:divide-gray-700 left-0 right-0">
                         {loading && <div className="p-3 text-sm text-gray-500">Loading...</div>}
                         {results.map((movie) => (
-                        <Link href={movie.media_type + '/' + movie.id} key={movie.id} className="group flex cursor-pointer items-center gap-3 px-3 py-3 hover:bg-gray-50 dark:hover:bg-[#222225]">
+                        <Link href={'/' + movie.media_type + '/' + movie.id} key={movie.id} className="group flex cursor-pointer items-center gap-3 px-3 py-3 hover:bg-gray-50 dark:hover:bg-[#222225]">
                             <img alt={movie.title} width="48" height="64" className="h-16 w-12 rounded object-cover" 
                             src={movie.poster_path} 
-                            loading="lazy" decoding="async"/>
+                            decoding="sync"/>
                             <div className="flex flex-col">
                                 <span className="text-sm dark:text-white dark:group-hover:text-white">{movie.title}</span>
                                 <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400 dark:group-hover:text-gray-300">
