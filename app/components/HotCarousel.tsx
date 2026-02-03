@@ -11,8 +11,9 @@ export default function HotCarousel({movies, genres}: {movies: Movie[], genres:G
     const options = {
         align: 'start' as const, 
         slidesToScroll: 1,
-        duation: 120,
-        loop: true,
+        loop: true, 
+        duration: 30, 
+        dragFree: false, 
     }
     const [emblaRef, emblaApi] = useEmblaCarousel(options)
     const getGenreName = (id: number) => { 
@@ -25,7 +26,7 @@ export default function HotCarousel({movies, genres}: {movies: Movie[], genres:G
     <div className="absolute -bottom-20 left-0 right-0 pointer-events-none">
         <div className="mx-auto max-w-[1440px] px-4 md:px-6 lg:px-8">
             <div ref={emblaRef} className="embla swiper mx-auto h-full pointer-events-auto">
-                <div className="embla__container">
+                <div className="embla__container transition-[transform] ease-out">
                     {movies.map((movie)=>
                     <div key={movie.id} className="embla__slide swiper-slide grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 md:max-w-[320px] lg:max-w-[267px] xl:max-w-[300px] md:mr-[10px]">
                         <Link href={`/${movie.media_type}/${movie.id}`}>

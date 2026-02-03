@@ -53,7 +53,7 @@ export default function ProviderCarousel({providers}:{providers:Provider[]} ) {
 
       {/* Embla wrapper */}
       <div className="embla" ref={emblaRef}>
-        <div className="embla__container flex">
+        <div className="embla__container flex transition-[transform] ease-out">
           {providers.map((provider) => (
             <div key={provider.provider_id} className="embla__slide !w-auto mr-2">
               <Link className="group block h-[111px] w-[111px] overflow-hidden rounded-xl border border-gray-300/30 dark:border-gray-700/30 hover:border-gray-400/50 dark:hover:border-gray-600/50 hover:opacity-90 transition-all relative shadow-sm hover:shadow-md"

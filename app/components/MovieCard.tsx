@@ -1,7 +1,7 @@
 "use-client"
 
 import { Movie } from "@/app/types/movie"
-import { BookmarkPlus, CalendarRange, Play, Plus, Star } from "lucide-react";
+import { BookmarkPlus, Calendar, Play, Plus, Star } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
@@ -84,7 +84,7 @@ export default function MovieCard({ movie, media_type }: { movie: Movie, media_t
                       {movie.vote_average.toFixed(1)}
                   </span>
                   <span className="flex items-center gap-1">
-                      <CalendarRange className="h-3.5 w-3.5" />
+                      <Calendar className="h-3.5 w-3.5" />
                       {movie.release_date.substring(0, 4)}
                   </span>
                   <span className="flex items-center gap-1 uppercase">{movie.original_language}</span>

@@ -7,18 +7,46 @@ import { Image } from "../types/images"
 import ImageNext from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { Info } from "lucide-react"
+import { Calendar, Info, Star } from "lucide-react"
+import { useEffect, useRef } from "react"
 
 export default function HeroCarousel( { movies, logos } : { movies: Movie[], logos: Map<number, Image>}) {
-  const router = useRouter()
-  const [ref, api] = useEmblaCarousel({ 
-    loop: true, duration: 60, dragFree: false, containScroll: "trimSnaps" 
+  const router      = useRouter()
+  const [ref, api]  = useEmblaCarousel({ 
+    loop: true, 
+    duration: 30, 
+    dragFree: false, 
+    containScroll: "trimSnaps"
   })
-  useEmblaAutoplay(api, 5000)
+
+  const sectionRef      = useRef<HTMLElement | null>(null)
+  const { play, stop }  = useEmblaAutoplay(api, 5000)
+
+  useEffect(() => { 
+    if (!sectionRef.current) return 
+    const observer = new IntersectionObserver( 
+      ([entry]) => { 
+        entry.isIntersecting ? play() : stop() 
+      }, 
+      { threshold: 0.5 } 
+    ) 
+    observer.observe(sectionRef.current) 
+    return () => observer.disconnect() 
+  }, [play, stop])
+
+  useEffect(() => { 
+    const handleVisibility = () => 
+      document.hidden ? stop() : play() 
+    document.addEventListener("visibilitychange", handleVisibility) 
+    return () => document.removeEventListener("visibilitychange", handleVisibility) 
+  }, [play, stop])
 
   return (
-    <section ref={ref} className="embla relative h-screen min-h-[700px] w-full overflow-hidden bg-black">
-      <div className="embla__container h-full">
+    <section ref={(node) => {
+      ref(node)
+      sectionRef.current = node
+    }} className="embla relative h-screen min-h-[700px] w-full overflow-hidden bg-black">
+      <div className="embla__container h-full transition-[transform] ease-out">
         {movies.map((movie) => (
           <div key={movie.id} className="embla__slide relative h-full w-full flex-[0_0_100%]">
             <div className="relative h-full w-full">
@@ -47,10 +75,12 @@ export default function HeroCarousel( { movies, logos } : { movies: Movie[], log
                     <span className="mr-3 flex items-center capitalize text-gray-300">
                       {movie.media_type}
                     </span>
-                    <span className="mr-2 flex items-center gap-x-1 text-gray-300"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-star h-4 w-4 fill-white text-white"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                    <span className="mr-2 flex items-center gap-x-1 text-gray-300">
+                      <Star className="h-4 w-4 fill-white text-white"/>
                       {movie.vote_average.toFixed(1)}
                     </span>
-                    <span className="ml-2 flex items-center gap-x-1 text-gray-300"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-calendar h-4 w-4"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
+                    <span className="ml-2 flex items-center gap-x-1 text-gray-300">
+                      <Calendar className="h-4 w-4"/>
                       {movie.release_date.substring(0, 4)}
                     </span>
                   </div>

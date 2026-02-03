@@ -35,7 +35,7 @@ export default function MovieRow({movies, media_type}: {movies: Movie[], media_t
         )}
         <div className="relative w-full min-w-[350px] overflow-hidden xl:overflow-visible">
             <div ref={emblaRef} className="embla">
-                <div className="embla__container flex">
+                <div className="embla__container flex transition-[transform] ease-out">
                   {movies.map((movie) => 
                   <div key={movie.id} className="embla__slide !w-auto duration-100 ease-linear">
                       <div className="group relative">
