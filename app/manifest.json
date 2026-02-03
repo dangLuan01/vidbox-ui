@@ -1,0 +1,97 @@
+{
+  "name": "Vidbox - Your Ultimate Streaming Guide",
+  "short_name": "Vidbox",
+  "description": "Discover and track your favorite movies, TV shows, anime, and more across all streaming platforms",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#000000",
+  "theme_color": "#EF4444",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["entertainment", "lifestyle", "utilities"],
+  "screenshots": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "1200x630",
+      "type": "image/webp",
+      "form_factor": "wide"
+    }
+  ],
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Search Movies",
+      "short_name": "Movies",
+      "description": "Search for movies",
+      "url": "/search?type=movie",
+      "icons": [
+        {
+          "src": "/logo.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Search TV Shows",
+      "short_name": "TV Shows",
+      "description": "Search for TV shows",
+      "url": "/search?type=tv",
+      "icons": [
+        {
+          "src": "/logo.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Watchlist",
+      "short_name": "Watchlist",
+      "description": "View your watchlist",
+      "url": "/watchlist",
+      "icons": [
+        {
+          "src": "/logo.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Continue Watching",
+      "short_name": "Continue",
+      "description": "Continue watching your shows",
+      "url": "/continue-watching",
+      "icons": [
+        {
+          "src": "/logo.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
+}
